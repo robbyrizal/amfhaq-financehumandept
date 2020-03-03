@@ -1,8 +1,37 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import {graphql} from 'react-apollo';
+import {getVendorsQuery} from '../queries/queries';
 import { Card, CardBody, CardHeader, Col, Pagination, PaginationItem,Button, PaginationLink, Row, Table } from 'reactstrap';
 
 class ListVendor extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      selected: null
+    }
+  }
+  displayVendors(){
+    var data = this.props.data;
+    var no = 0;
+   
+    if(data.loading){
+      console.log(data);
+      return (<div>Loading books...</div>);
+    } else {
+      return data.vendors.map(vendor => {
+         no++;
+        return(
+          <tr>
+            <td key={vendor.id}>{no}</td>
+            <td key={vendor.id}>{vendor.nama}</td>
+            <td key={vendor.id}>{vendor.jenis_usaha}</td>
+          </tr>
+        );
+      });
+    }
+
+  }
   render() {
     return (
       <div className="animated fadeIn">
@@ -23,35 +52,11 @@ class ListVendor extends Component {
                   <tr>
                     <th>No</th>
                     <th>Nama Vendor</th>
-                    <th>Alamat</th>
-                    <th>Bidang</th>
+                    <th>jenis_usaha</th>
                   </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>CV. Sumber Abadi</td>
-                      <td>Jl. Veteran</td>
-                      <td>Material Bangunan</td>
-                    </tr>
-                    <tr>
-                      <td>2</td>
-                      <td>CV. Sumber Bangunan</td>
-                      <td>Jl. Dipenogoro</td>
-                      <td>Material Bangunan</td>
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      <td>CV. Tunggal Jaya</td>
-                      <td>Jl. Mulawarman</td>
-                      <td>Alat Konstruksi</td>
-                    </tr>
-                    <tr>
-                      <td>4</td>
-                      <td>CV. Bangunan Jaya</td>
-                      <td>Jl. Panglegur</td>
-                      <td>Alat Konstruksi</td>
-                    </tr>
+                    {this.displayVendors()}
                   </tbody>
                 </Table>
                 <nav>
@@ -76,4 +81,4 @@ class ListVendor extends Component {
   }
 }
 
-export default ListVendor;
+export default graphql(getVendorsQuery)(ListVendor);
