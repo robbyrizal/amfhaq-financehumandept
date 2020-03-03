@@ -36,17 +36,17 @@ const Widgets = React.lazy(() => import('./views/Widgets/Widgets'));
 const Users = React.lazy(() => import('./views/Users/Users'));
 const User = React.lazy(() => import('./views/Users/User'));
 
-const Stock = React.lazy(() => import('./views/Material/Stock'));
-const Inventaris = React.lazy(() => import('./views/Peralatan/Inventaris'));
-const Pemeliharaan = React.lazy(() => import('./views/Peralatan/Pemeliharaan'));
-const Request = React.lazy(() => import('./views/Request/Request'));
-const MaterialRequest = React.lazy(() => import('./views/Request/MaterialRequest'));
-const ToolRequest = React.lazy(() => import('./views/Request/ToolRequest'));
-const ListOrder = React.lazy(() => import('./views/Order/ListOrder'));
-const CreateOrder = React.lazy(() => import('./views/Order/CreateOrder'));
-const DetailOrder = React.lazy(() => import('./views/Order/DetailOrder'));
-const ListVendor = React.lazy(() => import('./views/Vendor/ListVendor'));
-const OfferRoom = React.lazy(() => import('./views/Offer/OfferRoom'));
+const Stock = React.lazy(() => import('./views/Logistik/Material/Stock'));
+const Inventaris = React.lazy(() => import('./views/Logistik/Peralatan/Inventaris'));
+const Pemeliharaan = React.lazy(() => import('./views/Logistik/Peralatan/Pemeliharaan'));
+const Request = React.lazy(() => import('./views/Logistik/Request/Request'));
+const MaterialRequest = React.lazy(() => import('./views/Logistik/Request/MaterialRequest'));
+const ToolRequest = React.lazy(() => import('./views/Logistik/Request/ToolRequest'));
+const ListOrder = React.lazy(() => import('./views/Logistik/Order/ListOrder'));
+const CreateOrder = React.lazy(() => import('./views/Logistik/Order/CreateOrder'));
+const DetailOrder = React.lazy(() => import('./views/Logistik/Order/DetailOrder'));
+const ListVendor = React.lazy(() => import('./views/Logistik/Vendor/ListVendor'));
+const OfferRoom = React.lazy(() => import('./views/Logistik/Offer/OfferRoom'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
