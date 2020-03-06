@@ -1,18 +1,35 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import {graphql} from 'react-apollo';
-import {getVendorsQuery} from '../queries/queries';
-import { Card, CardBody, CardHeader, Col, Pagination, PaginationItem,Button, PaginationLink, Row, Table } from 'reactstrap';
+import * as compose from 'lodash.flowright';
+import {getVendorsQuery, addVendorMutation} from '../queries/queries';
+import { 
+  Card, 
+  CardBody, 
+  CardHeader, 
+  Col, 
+  Pagination, 
+  PaginationItem,
+  Button, 
+  PaginationLink, 
+  Row, 
+  Table,
+  Form, 
+  FormGroup, 
+  Label,
+  Input,
+ } from 'reactstrap';
 
 class ListVendor extends Component {
   constructor(props){
     super(props);
     this.state = {
-      selected: null
+      selected: null,
+      nama: '',
+      jenis_usaha:''
     }
   }
   displayVendors(){
-    var data = this.props.data;
+    var data = this.props.getVendorsQuery;
     var no = 0;
    
     if(data.loading){
@@ -30,21 +47,26 @@ class ListVendor extends Component {
         );
       });
     }
-
   }
+  submitForm(e){
+    e.preventDefault();
+    this.props.addVendorMutation({
+      variables:{
+        nama:this.state.nama,
+        jenis_usaha: this.state.jenis_usaha,
+      },
+      refetchQueries:[{query:getVendorsQuery}]
+    });
+  }
+
   render() {
     return (
       <div className="animated fadeIn">
         <Row>
-          <Col>
+          <Col md="8">
             <Card>
               <CardHeader>
                 Daftar Vendor
-                <Link to="/order/createOrder" className={'float-right mb-0'}>
-                  <Button label color="primary">
-                      Tambah Vendor
-                  </Button>
-                </Link>
               </CardHeader>
               <CardBody>
                 <Table hover bordered striped responsive size="sm">
@@ -52,7 +74,7 @@ class ListVendor extends Component {
                   <tr>
                     <th>No</th>
                     <th>Nama Vendor</th>
-                    <th>jenis_usaha</th>
+                    <th>Jenis Usaha</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -74,6 +96,27 @@ class ListVendor extends Component {
               </CardBody>
             </Card>
           </Col>
+          <Col>
+          <Card>
+            <CardHeader>
+              <i className="fa fa-plus-square"></i> Form Tambah Vendor
+            </CardHeader>
+            <CardBody>
+              <Form onSubmit={this.submitForm.bind(this)}> 
+                <FormGroup>
+                  <Label>Nama Vendor</Label>
+                  <Input type="text" id="nama" onChange={(e) =>this.setState({nama:e.target.value})} placeholder="Masukkan Nama Vendor" required />
+                </FormGroup>
+                <FormGroup>
+                  <Label htmlFor="name">Jenis Usaha</Label>
+                  <Input type="text" id="jenis" onChange={(e) =>this.setState({jenis_usaha:e.target.value})} placeholder="Jenis Usaha" required />
+                </FormGroup>
+                <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Submit</Button>
+                <Button type="reset" size="sm" color="danger"><i className="fa fa-ban"></i> Reset</Button>
+              </Form>
+            </CardBody>
+          </Card>
+          </Col>
         </Row>
       </div>
 
@@ -81,4 +124,7 @@ class ListVendor extends Component {
   }
 }
 
-export default graphql(getVendorsQuery)(ListVendor);
+export default compose(
+  graphql(getVendorsQuery, {name:"getVendorsQuery"}),
+  graphql(addVendorMutation, {name:"addVendorMutation"})
+)(ListVendor);

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import {graphql} from 'react-apollo';
+import * as compose from 'lodash.flowright';
+import {getAlatsQuery, addAlatMutation} from '../queries/queries';
 import { 
-  
+  Form,
   Card, 
   CardBody, 
   CardHeader, 
@@ -19,7 +22,7 @@ import {
 
 class Inventaris extends Component {
 
-   constructor(props) {
+  constructor(props) {
     super(props);
     this.toggleAccordion = this.toggleAccordion.bind(this);
     this.state = {
@@ -29,7 +32,39 @@ class Inventaris extends Component {
       status: 'Closed',
       fadeIn: true,
       timeout: 300,
+      nama:'',
+      jumlah: 22,
     };
+  }
+
+  displayAlats(){
+    var data = this.props.getAlatsQuery;
+    var no = 0;
+    if(data.loading){
+      return (<div>Loading Alat...</div>);
+    } else {
+      return data.alats.map(alat => {
+         no++;
+        return(
+          <tr>
+            <td key={alat.id}>{no}</td>
+            <td key={alat.id}>{alat.nama}</td>
+            <td key={alat.id}>{alat.jumlah}</td>
+          </tr>
+        );
+      });
+    }
+  }
+
+  submitForm(e){
+    e.preventDefault();
+    this.props.addAlatMutation({
+      variables:{
+        nama:this.state.nama,
+        jumlah: parseInt(this.state.jumlah),
+      },
+      refetchQueries:[{query:getAlatsQuery}]
+    });
   }
 
   toggleAccordion(tab) {
@@ -60,34 +95,12 @@ class Inventaris extends Component {
                   <thead>
                   <tr>
                     <th>No</th>
-                    <th>Kode</th>
                     <th>Nama Peralatan</th>
                     <th>Jumlah</th>
-                    <th>Satuan</th>
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>P001</td>
-                    <td>Helmet</td>
-                    <td>50</td>
-                    <td>Buah</td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>P002</td>
-                    <td>Rompi</td>
-                    <td>50</td>
-                    <td>Buah</td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>P003</td>
-                    <td>Sepatu Safety</td>
-                    <td>20</td>
-                    <td>Buah</td>
-                  </tr>
+                  {this.displayAlats()}
                   </tbody>
                 </Table>
                 <nav>
@@ -116,25 +129,18 @@ class Inventaris extends Component {
                 </CardHeader>
                 <Collapse isOpen={this.state.accordion[0]} data-parent="#accordion" id="collapseOne" aria-labelledby="headingOne">
                   <CardBody>
-                    <FormGroup>
-                      <Label htmlFor="name">Nama Peralatan</Label>
-                      <Input type="text" id="name" placeholder="Masukkan Nama Peralatan" required />
-                    </FormGroup>
-                    <FormGroup>
-                      <Label htmlFor="name">Jumlah</Label>
-                      <Input type="number" id="jumlah" placeholder="Masukkan Jumlah Material" required />
-                    </FormGroup>
-                    <FormGroup>
-                      <Label htmlFor="name">Satuan</Label>
-                      <Input type="select" name="satuan" id="satuan">
-                        <option value="Kg">Kg</option>
-                        <option value="Buah">Buah</option>
-                        <option value="Meter">Meter</option>
-                        <option value="Lembar">Lembar</option>
-                      </Input>
-                    </FormGroup>
-                    <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Submit</Button>
-                    <Button type="reset" size="sm" color="danger"><i className="fa fa-ban"></i> Reset</Button>
+                    <Form onSubmit={this.submitForm.bind(this)}>
+                      <FormGroup>
+                        <Label>Nama Peralatan</Label>
+                        <Input type="text" onChange={(e) =>this.setState({nama:e.target.value})} placeholder="Masukkan Nama Peralatan" required />
+                      </FormGroup>
+                      <FormGroup>
+                        <Label>Jumlah</Label>
+                        <Input type="number" onChange={(e) =>this.setState({jumlah:e.target.value})} placeholder="Masukkan Jumlah Material" required />
+                      </FormGroup>
+                      <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Submit</Button>
+                      <Button type="reset" size="sm" color="danger"><i className="fa fa-ban"></i> Reset</Button>
+                    </Form>
                   </CardBody>
                 </Collapse>
               </Card>
@@ -178,4 +184,7 @@ class Inventaris extends Component {
   }
 }
 
-export default Inventaris;
+export default compose(
+  graphql(getAlatsQuery, {name:"getAlatsQuery"}),
+  graphql(addAlatMutation, {name:"addAlatMutation"})
+)(Inventaris);

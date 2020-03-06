@@ -26,6 +26,7 @@
     "flag-icon-css": "^3.4.5",
     "font-awesome": "^4.7.0",
     "graphql": "^14.6.0",
+    "lodash.flowright": "^3.5.0",
     "node-sass": "^4.13.1",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",

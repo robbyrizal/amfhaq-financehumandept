@@ -10,5 +10,34 @@ const getVendorsQuery = gql`
 }
 `
 
+const getAlatsQuery = gql`
+{
+	alats {
+		nama
+		jumlah
+		id
+	}
+}
+`
 
-export {getVendorsQuery};
+const addAlatMutation = gql`
+	mutation($nama:String!, $jumlah:Int!){
+		addAlat(nama: $nama, jumlah: $jumlah){
+			nama
+			jumlah
+			id
+		}
+	}
+`
+
+const addVendorMutation = gql`
+	mutation($nama:String!, $jenis_usaha:String!){
+		addVendor(nama: $nama, jenis_usaha: $jenis_usaha){
+			nama
+			jenis_usaha
+			id
+		}
+	}
+`
+
+export {getVendorsQuery, getAlatsQuery, addAlatMutation, addVendorMutation};
