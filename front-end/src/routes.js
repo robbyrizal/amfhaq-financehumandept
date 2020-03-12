@@ -40,11 +40,13 @@ const Stock = React.lazy(() => import('./views/Logistik/Material/Stock'));
 const Inventaris = React.lazy(() => import('./views/Logistik/Peralatan/Inventaris'));
 const Pemeliharaan = React.lazy(() => import('./views/Logistik/Peralatan/Pemeliharaan'));
 const Request = React.lazy(() => import('./views/Logistik/Request/Request'));
-const MaterialRequest = React.lazy(() => import('./views/Logistik/Request/MaterialRequest'));
-const ToolRequest = React.lazy(() => import('./views/Logistik/Request/ToolRequest'));
+const DetailRequest = React.lazy(() => import('./views/Logistik/Request/DetailRequest'));
+const CreateRequest = React.lazy(() => import('./views/Logistik/Request/CreateRequest'));
 const ListOrder = React.lazy(() => import('./views/Logistik/Order/ListOrder'));
 const CreateOrder = React.lazy(() => import('./views/Logistik/Order/CreateOrder'));
 const DetailOrder = React.lazy(() => import('./views/Logistik/Order/DetailOrder'));
+const PenerimaanBarang = React.lazy(() => import('./views/Logistik/Order/PenerimaanBarang'));
+const PengambilanBarang = React.lazy(() => import('./views/Logistik/Order/PengambilanBarang'));
 const ListVendor = React.lazy(() => import('./views/Logistik/Vendor/ListVendor'));
 const OfferRoom = React.lazy(() => import('./views/Logistik/Offer/OfferRoom'));
 
@@ -96,11 +98,13 @@ const routes = [
   { path: '/peralatan/inventaris', exact: true, name: 'Inventaris', component: Inventaris },
   { path: '/peralatan/pemeliharaan', exact: true, name: 'Pemeliharaan', component: Pemeliharaan },
   { path: '/request/request', exact: true, name: 'Project Request', component: Request },
-  { path: '/request/materialRequest', exact: true, name: 'Detail Request', component: MaterialRequest },
-  { path: '/request/toolRequest', exact: true, name: 'Detail Request', component: ToolRequest },
+  { path: '/request/detailRequest', exact: true, name: 'Detail Request', component: DetailRequest },
+  { path: '/request/createRequest', exact: true, name: 'Create Request', component: CreateRequest },
   { path: '/order/listOrder', exact: true, name: 'List Order', component: ListOrder },
   { path: '/order/createOrder', exact: true, name: 'Create Order', component: CreateOrder },
   { path: '/order/detailOrder', exact: true, name: 'Detail Order', component: DetailOrder },
+  { path: '/order/penerimaanBarang', exact: true, name: 'Penermaan Barang Order', component: PenerimaanBarang },
+  { path: '/order/pengambilanBarang', exact: true, name: 'Pengambilan Barang Order', component: PengambilanBarang },
   { path: '/vendor/listVendor', exact: true, name: 'List Vendor', component: ListVendor },
   { path: '/offer/offerRoom', exact: true, name: 'Offer Room', component: OfferRoom },
 ];

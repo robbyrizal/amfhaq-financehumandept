@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table } from 'reactstrap';
 
-class ToolRequest extends Component {
+class DetailRequest extends Component {
   render() {
     return (
       <div className="animated fadeIn">
@@ -10,47 +10,57 @@ class ToolRequest extends Component {
           <Col>
             <Card>
               <CardHeader>
-                Material Request
+               <Row>
+                <Col>
+                  Detail Request
+                </Col>
+                <Col>
+                  <Link to="/request/request" className={'float-right mb-0'}>
+                    <Button label color="primary" size="sm">
+                        Kembali
+                    </Button>
+                  </Link>
+                </Col>
+                </Row>
               </CardHeader>
               <CardBody>
               <Row>
-                <Col sm="5">
-                  <Card>
-                    <CardBody>
-                      <h6>Nama Project : Project Renovasi Rumah</h6>
-                      <h6>Status : On Progres</h6>
-                      <h6>
-                        <Link to="/request/materialRequest" className="ml-auto">
-                          Lihat Material Request
-                        </Link>
-                      </h6>
-                    </CardBody>
-                  </Card>
+                <Col md="5">
+                  <h5>Divisi : Manajemen Proyek</h5>
                 </Col>
-                <Col>
+                <Col md="5">
+                  <h5>Tanggal Request : 3-11-2019</h5>
+                </Col>
+              </Row>
+              <hr />
                   <Table hover bordered striped responsive size="sm">
                     <thead>
                     <tr>
-                      <th>Nama Tool</th>
+                      <th>Nama Material</th>
                       <th>Jumlah</th>
                       <th>Satuan</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                      <td>Helmet</td>
-                      <td>80</td>
-                      <td>Buah</td>
+                      <td>Pasir</td>
+                      <td>10</td>
+                      <td>Truk</td>
                     </tr>
                     <tr>
-                      <td>Rompi</td>
-                      <td>80</td>
-                      <td>Buah</td>
+                      <td>Paku</td>
+                      <td>10</td>
+                      <td>Kg</td>
                     </tr>
                     <tr>
-                      <td>Sepatu Safety</td>
+                      <td>Seng</td>
                       <td>80</td>
-                      <td>Pasang</td>
+                      <td>Lembar</td>
+                    </tr>
+                    <tr>
+                      <td>Semen</td>
+                      <td>50</td>
+                      <td>Sak</td>
                     </tr>
                     </tbody>
                   </Table>
@@ -66,8 +76,6 @@ class ToolRequest extends Component {
                       <PaginationItem><PaginationLink next tag="button">Next</PaginationLink></PaginationItem>
                     </Pagination>
                   </nav>
-                  </Col>
-                </Row>
               </CardBody>
             </Card>
           </Col>
@@ -78,4 +86,4 @@ class ToolRequest extends Component {
   }
 }
 
-export default ToolRequest;
+export default DetailRequest;

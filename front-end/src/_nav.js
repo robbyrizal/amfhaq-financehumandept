@@ -54,6 +54,23 @@ export default {
       name: 'Order',
       url: '/order/listOrder',
       icon: 'icon-pie-chart',
+      children: [
+        {
+          name: 'Purchase Order',
+          url: '/order/listOrder',
+          icon: 'icon-puzzle',
+        },
+        {
+          name: 'Penerimaan Barang',
+          url: '/order/penerimaanBarang',
+          icon: 'icon-puzzle',
+        },
+        {
+          name: 'Pengambilan Barang',
+          url: '/order/pengambilanBarang',
+          icon: 'icon-puzzle',
+        },
+      ],
     },
     {
       name: 'Vendor',
@@ -61,7 +78,7 @@ export default {
       icon: 'icon-home',
     },
     {
-      name: 'Offer Room',
+      name: 'test',
       url: '/offer/offerRoom',
       icon: 'icon-home',
     },

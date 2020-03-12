@@ -2,6 +2,9 @@ const graphql = require ('graphql');
 const _ = require('lodash');
 const Vendor = require('../models/VendorModel');
 const Alat = require('../models/AlatModel');
+const Divisi = require('../models/DivisiModel');
+const Request = require('../models/RequestModel');
+const ListRequest = require('../models/ListRequestModel');
 
 
 const {
@@ -11,8 +14,10 @@ const {
 	GraphQLInt,
 	GraphQLList,
 	GraphQLSchema,
-	GraphQLNonNull
+	GraphQLNonNull,
+	GraphQLScalarType
 } = graphql;
+
 
 const VendorType = new GraphQLObjectType({
 	name: 'Vendor',
@@ -29,6 +34,56 @@ const AlatType = new GraphQLObjectType({
 		id: {type: GraphQLID},
 		nama: {type:GraphQLString},
 		jumlah: {type: GraphQLInt}
+	})
+});
+
+const DivisiType = new GraphQLObjectType({
+	name: 'Divisi',
+	fields: () => ({
+		id: {type: GraphQLID},
+		nama: {type:GraphQLString},
+		request: {
+			type: new GraphQLList(RequestType),
+			resolve(parent, args){
+				return Request.find({divisi_id: parent.id});
+			}
+		}
+	})
+});
+
+const RequestType = new GraphQLObjectType({
+	name: 'Request',
+	fields: () => ({
+		id: {type: GraphQLID},
+		tanggal: {type:GraphQLString},
+		divisi: {
+			type: DivisiType,
+			resolve(parent, args){
+				return Divisi.findById(parent.divisi_id);
+			}
+		},
+		listRequest: {
+			type: new GraphQLList(ListRequestType),
+			resolve(parent,args){
+				return ListRequest.find({request_id: parent.id});
+			}
+		}
+	})
+});
+
+const ListRequestType = new GraphQLObjectType({
+	name: "ListRequest",
+	fields: () => ({
+		id: {type: GraphQLID},
+		nama_barang: {type: GraphQLString},
+		jumlah_barang: { type: GraphQLInt},
+		satuan: {type: GraphQLString},
+		request: {
+			type: RequestType,
+			resolve(parent,args){
+				return Request.findById(parent.request_id);
+			}
+		}
 	})
 });
 
@@ -60,7 +115,49 @@ const RootQuery = new GraphQLObjectType({
 			resolve(parent,args){
 				return Alat.find({});
 			}
-		}
+		},
+		divisi:{
+			type: DivisiType,
+			args: {id:{type:GraphQLID}},
+			resolve(parent,args){
+				return Divisi.findById(args.id);
+			}
+		},
+		divisis:{
+			type: new GraphQLList(DivisiType),
+			args: {id:{type:GraphQLID}},
+			resolve(parent,args){
+				return Divisi.find({});
+			}
+		},
+		request:{
+			type: RequestType,
+			args: {id:{type:GraphQLID}},
+			resolve(parent,args){
+				return Request.findById(args.id);
+			}
+		},
+		requests:{
+			type: new GraphQLList(RequestType),
+			args: {id:{type:GraphQLID}},
+			resolve(parent,args){
+				return Request.find({});
+			}
+		},
+		listrequest:{
+			type: ListRequestType,
+			args: {id:{type:GraphQLID}},
+			resolve(parent,args){
+				return ListRequest.findById(args.id);
+			}
+		},
+		listrequests:{
+			type: new GraphQLList(ListRequestType),
+			args: {id:{type:GraphQLID}},
+			resolve(parent,args){
+				return ListRequest.find({});
+			}
+		},
 	}
 });
 
@@ -94,7 +191,51 @@ const Mutation = new GraphQLObjectType({
 				});
 				return alat.save();
 			}
-		}
+		},
+		addDivisi:{
+			type: DivisiType,
+			args:{
+				nama: {type: new GraphQLNonNull(GraphQLString)},
+			},
+			resolve(parent,args){
+				let divisi = new Divisi({
+					nama: args.nama,
+				});
+				return divisi.save();
+			}
+		},
+		addRequest:{
+			type: RequestType,
+			args:{
+				tanggal: {type: new GraphQLNonNull(GraphQLString)},
+				divisi_id: {type: new GraphQLNonNull(GraphQLID)}
+			},
+			resolve(parent, args){
+				let request = new Request({
+					tanggal: args.tanggal,
+					divisi_id: args.divisi_id
+				});
+				return request.save();
+			}
+		},
+		addListRequest:{
+			type: ListRequestType,
+			args:{
+				nama_barang: {type: new GraphQLNonNull(GraphQLString)},
+				jumlah_barang: {type: new GraphQLNonNull(GraphQLInt)},
+				satuan: {type: new GraphQLNonNull(GraphQLString)},
+				request_id: {type: new GraphQLNonNull(GraphQLID)}
+			},
+			resolve(parent, args){
+				let listrequest = new ListRequest({
+					nama_barang: args.nama_barang,
+					jumlah_barang: args.jumlah_barang,
+					satuan: args.satuan,
+					request_id: args.request_id
+				});
+				return listrequest.save();
+			}
+		},
 	}
 });
 
