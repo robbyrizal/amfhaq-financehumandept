@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import {graphql} from 'react-apollo';
 import * as compose from 'lodash.flowright';
-import { getDivisisQuery, getRequestsQuery, addRequestMutation, addListRequestMutation} from '../queries/queries';
+import { getDivisisQuery, getRequestsQuery,getListRequestsQuery, addRequestMutation, addListRequestMutation} from '../queries/queries';
 import {  
   Card, 
   CardBody, 
@@ -23,10 +23,11 @@ class CreateRequest extends Component {
     this.state = {
       requestItems: [],
       nama:'',
+      status: 'Active',
       jumlah:'',
       satuan:'',
+      jenis:'',
       div_id:'',
-      req_id:[],
       redirect: true,
     }
   }
@@ -46,7 +47,7 @@ class CreateRequest extends Component {
 
   addItem(e){
     e.preventDefault();
-    const newItem = { nama: this.state.nama, jumlah: this.state.jumlah, satuan: this.state.satuan};
+    const newItem = { nama: this.state.nama, jumlah: this.state.jumlah, satuan: this.state.satuan, jenis: this.state.jenis};
     
     this.setState(state => {
       state.requestItems.push(newItem);
@@ -56,9 +57,10 @@ class CreateRequest extends Component {
 
   submitDivisi(e){
     e.preventDefault();
-    this.state.id = this.props.addRequestMutation({
+    this.props.addRequestMutation({
       variables:{
         tanggal: '03-11-2020',
+        status: this.state.status,
         divisi_id: this.state.div_id,
       },
       refetchQueries:[{query:getRequestsQuery}],
@@ -81,8 +83,10 @@ class CreateRequest extends Component {
             nama_barang: item.nama,
             jumlah_barang: parseInt(item.jumlah),
             satuan: item.satuan,
+            jenis: item.jenis,
             request_id: request_id,
           },
+          refetchQueries:[{query:getListRequestsQuery}],
         })
       );
     });
@@ -105,7 +109,7 @@ class CreateRequest extends Component {
               <CardBody>
                <Form onSubmit={(e) => {this.addItem(e)}}>
                 <Row form>
-                  <Col md="3">
+                  <Col md="4">
                     <FormGroup>
                       <Label htmlFor="name" hidden>Nama Divisi</Label>
                       <Input type="select" name="nama" onChange={(e) =>this.setState({div_id:e.target.value})} id="satuan">
@@ -125,17 +129,19 @@ class CreateRequest extends Component {
                       <Input type="text" id="nama" onChange={(e) =>this.setState({nama:e.target.value})} placeholder="Masukkan Nama Barang" required />
                     </FormGroup>
                   </Col>
-                  <Col md="3">
+                  <Col md="2">
                     <FormGroup>
                       <Label htmlFor="name" hidden>Jumlah</Label>
                       <Input type="number" id="jumlah" onChange={(e) =>this.setState({jumlah:e.target.value})} placeholder="Jumlah Material" required />
                     </FormGroup>
                   </Col>
-                  <Col md="3">
+                  <Col md="2">
                     <FormGroup>
                       <Label htmlFor="name" hidden>Satuan</Label>
                       <Input type="select" name="satuan" onChange={(e) =>this.setState({satuan:e.target.value})} id="satuan">
+                        <option >Pilih Satuan</option>
                         <option value="Kg">Kg</option>
+                        <option value="Kardus">Kardus</option>
                         <option value="Buah">Buah</option>
                         <option value="Meter">Meter</option>
                         <option value="Lembar">Lembar</option>
@@ -143,6 +149,19 @@ class CreateRequest extends Component {
                     </FormGroup>
                   </Col>
                   <Col md="2">
+                    <FormGroup>
+                      <Label htmlFor="name" hidden>Jenis Barang</Label>
+                      <Input type="select" name="jenis" onChange={(e) =>this.setState({jenis:e.target.value})} id="satuan">
+                        <option >Pilih Jenis</option>
+                        <option value="ATK">ATK</option>
+                        <option value="Alat Konstruksi">Alat Konstruksi</option>
+                        <option value="Elektronik">Elektronik</option>
+                        <option value="Material">Material</option>
+                        <option value="Material Alam">Material Alam</option>
+                      </Input>
+                    </FormGroup>
+                  </Col>
+                  <Col >
                     <Button type="Submit" size="sm" color="success"><i className="fa fa-plus-circle"></i> Add</Button>
                   </Col>
                   </Row>
@@ -154,7 +173,8 @@ class CreateRequest extends Component {
                     <tr>
                       <th>Nama Barang</th>
                       <th>Jumlah</th>
-                      <th>satuan</th>
+                      <th>Satuan</th>
+                      <th>Jenis Barang</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -165,6 +185,7 @@ class CreateRequest extends Component {
                               <td>{item.nama}</td>
                               <td>{item.jumlah}</td>
                               <td>{item.satuan}</td>
+                              <td>{item.jenis}</td>
                             </tr>
                           ) 
                          })
@@ -186,6 +207,7 @@ export default compose(
   
   graphql(getDivisisQuery, {name:"getDivisisQuery"}),
   graphql(getRequestsQuery, {name:"getRequestsQuery"}),
+  graphql(getListRequestsQuery, {name:"getListRequestsQuery"}),
   graphql(addRequestMutation, {name:"addRequestMutation"}),
   graphql(addListRequestMutation, {name:"addListRequestMutation"}),
   

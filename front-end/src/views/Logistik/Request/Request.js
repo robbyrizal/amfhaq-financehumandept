@@ -32,6 +32,7 @@ class Request extends Component {
             <td key={request.id}>{no}</td>
             <td key={request.id}>{request.divisi.nama}</td>
             <td key={request.id}>{request.tanggal}</td>
+            <td key={request.id}>{request.status}</td>
             <td key={request.id}>
               <Link to="/request/detailRequest">
                 <i className="fa fa-file"></i>
@@ -70,6 +71,7 @@ class Request extends Component {
                     <th>No</th>
                     <th>Divisi</th>
                     <th>Tanggal</th>
+                    <th>Status</th>
                     <th>Detail</th>
                   </tr>
                   </thead>

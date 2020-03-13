@@ -5,6 +5,7 @@ const Alat = require('../models/AlatModel');
 const Divisi = require('../models/DivisiModel');
 const Request = require('../models/RequestModel');
 const ListRequest = require('../models/ListRequestModel');
+const Order = require('../models/OrderModel');
 
 
 const {
@@ -24,7 +25,13 @@ const VendorType = new GraphQLObjectType({
 	fields: () => ({
 		id: {type: GraphQLID},
 		nama: {type:GraphQLString},
-		jenis_usaha: {type: GraphQLString}
+		jenis_usaha: {type: GraphQLString},
+		order: {
+			type: new GraphQLList(OrderType),
+			resolve(parent, args){
+				return Order.find({vendor_id: parent.id});
+			}
+		}
 	})
 });
 
@@ -56,6 +63,7 @@ const RequestType = new GraphQLObjectType({
 	fields: () => ({
 		id: {type: GraphQLID},
 		tanggal: {type:GraphQLString},
+		status: {type:GraphQLString},
 		divisi: {
 			type: DivisiType,
 			resolve(parent, args){
@@ -78,10 +86,28 @@ const ListRequestType = new GraphQLObjectType({
 		nama_barang: {type: GraphQLString},
 		jumlah_barang: { type: GraphQLInt},
 		satuan: {type: GraphQLString},
+		jenis: {type: GraphQLString},
 		request: {
 			type: RequestType,
 			resolve(parent,args){
 				return Request.findById(parent.request_id);
+			}
+		}
+	})
+});
+
+const OrderType = new GraphQLObjectType({
+	name: 'Order',
+	fields: () => ({
+		id: {type: GraphQLID},
+		kode: {type:GraphQLString},
+		tanggal: {type:GraphQLString},
+		jenis: {type:GraphQLString},
+		status: {type:GraphQLString},
+		vendor: {
+			type: VendorType,
+			resolve(parent, args){
+				return Vendor.findById(parent.vendor_id);
 			}
 		}
 	})
@@ -158,6 +184,20 @@ const RootQuery = new GraphQLObjectType({
 				return ListRequest.find({});
 			}
 		},
+		order:{
+			type: OrderType,
+			args: {id:{type:GraphQLID}},
+			resolve(parent,args){
+				return Order.findById(args.id);
+			}
+		},
+		orders:{
+			type: new GraphQLList(OrderType),
+			args: {id:{type:GraphQLID}},
+			resolve(parent,args){
+				return Order.find({});
+			}
+		},
 	}
 });
 
@@ -208,11 +248,13 @@ const Mutation = new GraphQLObjectType({
 			type: RequestType,
 			args:{
 				tanggal: {type: new GraphQLNonNull(GraphQLString)},
+				status: {type: new GraphQLNonNull(GraphQLString)},
 				divisi_id: {type: new GraphQLNonNull(GraphQLID)}
 			},
 			resolve(parent, args){
 				let request = new Request({
 					tanggal: args.tanggal,
+					status:args.status,
 					divisi_id: args.divisi_id
 				});
 				return request.save();
@@ -224,6 +266,7 @@ const Mutation = new GraphQLObjectType({
 				nama_barang: {type: new GraphQLNonNull(GraphQLString)},
 				jumlah_barang: {type: new GraphQLNonNull(GraphQLInt)},
 				satuan: {type: new GraphQLNonNull(GraphQLString)},
+				jenis: {type: new GraphQLNonNull(GraphQLString)},
 				request_id: {type: new GraphQLNonNull(GraphQLID)}
 			},
 			resolve(parent, args){
@@ -231,9 +274,30 @@ const Mutation = new GraphQLObjectType({
 					nama_barang: args.nama_barang,
 					jumlah_barang: args.jumlah_barang,
 					satuan: args.satuan,
+					jenis: args.jenis,
 					request_id: args.request_id
 				});
 				return listrequest.save();
+			}
+		},
+		addOrder:{
+			type: OrderType,
+			args:{
+				kode: {type: new GraphQLNonNull(GraphQLString)},
+				tanggal: {type: new GraphQLNonNull(GraphQLString)},
+				jenis: {type: new GraphQLNonNull(GraphQLString)},
+				status: {type: new GraphQLNonNull(GraphQLString)},
+				vendor_id: {type: new GraphQLNonNull(GraphQLID)}
+			},
+			resolve(parent, args){
+				let order = new Order({
+					kode: args.kode,
+					tanggal: args.tanggal,
+					jenis: args.jenis,
+					status: args.status,
+					vendor_id: args.vendor_id
+				});
+				return order.save();
 			}
 		},
 	}

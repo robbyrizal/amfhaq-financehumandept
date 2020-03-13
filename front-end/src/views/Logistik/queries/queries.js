@@ -31,9 +31,44 @@ const getRequestsQuery = gql`
 {
 	requests {
 		tanggal
+		status
 		id
 		divisi{
 			nama
+		}
+	}
+}
+`
+const getListRequestsQuery = gql`
+{
+	listrequests {
+		nama_barang
+		jumlah_barang
+		jenis
+		satuan
+		id
+		request{
+			status
+			tanggal
+			divisi{
+				nama
+			}
+		}
+	}
+}
+`
+
+const getOrdersQuery = gql`
+{
+	orders {
+		kode
+		tanggal
+		jenis
+		status
+		id
+		vendor{
+			nama
+			jenis_usaha
 		}
 	}
 }
@@ -69,19 +104,22 @@ const addDivisiMutation = gql`
 `
 
 const addRequestMutation = gql`
-	mutation($tanggal:String!, $divisi_id: ID!){
-		addRequest(tanggal: $tanggal, divisi_id: $divisi_id){
+	mutation($tanggal:String!, $status:String!, $divisi_id: ID!){
+		addRequest(tanggal: $tanggal, status: $status, divisi_id: $divisi_id){
+			tanggal
+			status
 			id
 		}
 	}
 `
 
 const addListRequestMutation = gql`
-	mutation($nama_barang:String!, $jumlah_barang:Int!, $satuan:String!, $request_id: ID!){
-		addListRequest(nama_barang: $nama_barang, jumlah_barang: $jumlah_barang, satuan:$satuan, request_id: $request_id){
+	mutation($nama_barang:String!, $jumlah_barang:Int!, $satuan:String!, $jenis:String!, $request_id: ID!){
+		addListRequest(nama_barang: $nama_barang, jumlah_barang: $jumlah_barang, satuan:$satuan, jenis:$jenis, request_id: $request_id){
 			nama_barang
 			jumlah_barang
 			satuan
+			jenis
 			id
 		}
 	}
@@ -93,6 +131,8 @@ export {
 	getAlatsQuery,
 	getDivisisQuery,
 	getRequestsQuery,
+	getListRequestsQuery,
+	getOrdersQuery,
 	addDivisiMutation, 
 	addAlatMutation, 
 	addVendorMutation,

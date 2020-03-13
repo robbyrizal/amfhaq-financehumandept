@@ -5,6 +5,11 @@ export default {
       url: '/dashboard',
       icon: 'icon-speedometer',
     },
+      {
+      name: 'My Dashboard',
+      url: '/dashboardLogistik/dashboardLogistik',
+      icon: 'icon-speedometer',
+    },
     {
       name: 'Request',
       url: '/request/request',

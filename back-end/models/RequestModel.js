@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const RequestSchema = new Schema({
 	tanggal: String,
+	status: String,
 	divisi_id: String,
 });
 

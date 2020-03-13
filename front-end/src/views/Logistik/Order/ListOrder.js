@@ -10,12 +10,18 @@ class ListOrder extends Component {
           <Col>
             <Card>
               <CardHeader>
-                Purchase Order
-                <Link to="/order/createOrder" className={'float-right mb-0'}>
-                  <Button label color="primary">
-                      Buat Order
-                  </Button>
-                </Link>
+                <Row>
+                <Col>
+                  Daftar Purchase Order
+                </Col>
+                <Col>
+                  <Link to="/order/createOrder" className={'float-right mb-0'}>
+                    <Button label color="primary" size="sm">
+                        <i className="fa fa-plus"></i> Purchase Order
+                    </Button>
+                  </Link>
+                </Col>
+                </Row>
               </CardHeader>
               <CardBody>
                 <Table hover bordered striped responsive size="sm">
