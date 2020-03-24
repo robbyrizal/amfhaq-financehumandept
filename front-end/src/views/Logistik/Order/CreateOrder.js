@@ -15,6 +15,9 @@ import {
   Form,
   Label,
   Input,
+  Modal,
+  ModalBody,
+  ModalHeader
 } from 'reactstrap';
 
 class CreateOrder extends Component {
@@ -41,6 +44,12 @@ class CreateOrder extends Component {
         );
       });
     }
+  }
+
+  toggleModal(){
+    this.setState({
+      modalIsOpen: ! this.state.modalIsOpen
+    });
   }
 
   displayListRequest(){
@@ -86,7 +95,7 @@ class CreateOrder extends Component {
     });
   }*/
 
-  /*submitRequest(e){
+  submitRequest(e){
     var data = this.props.getRequestsQuery;
     var request_id = '';
     data.requests.map(request => {
@@ -109,18 +118,7 @@ class CreateOrder extends Component {
       );
     });
   }
-  {
-                         this.state.requestItems.map(item => {
-                          return(
-                            <tr>
-                              <td>{item.nama}</td>
-                              <td>{item.jumlah}</td>
-                              <td>{item.satuan}</td>
-                              <td>{item.jenis}</td>
-                            </tr>
-                          ) 
-                         })
-                      }*/
+  
   
   render() {
     return (
@@ -165,19 +163,6 @@ class CreateOrder extends Component {
                       </Input>
                       </Col>
                     </FormGroup>
-                    <FormGroup row>
-                      <Label htmlFor="name" sm={4}>Jenis Barang</Label>
-                      <Col sm={8}>
-                        <Input type="select" name="jenis" id="jenis" onChange={(e) =>this.setState({jenis:e.target.value})}>
-                        <option >Pilih Jenis Barang</option>
-                        <option value="ATK">ATK</option>
-                        <option value="Alat Konstruksi">Alat Konstruksi</option>
-                        <option value="Elektronik">Elektronik</option>
-                        <option value="Material">Material</option>
-                        <option value="Material Alam">Material Alam</option>
-                      </Input>
-                      </Col>
-                    </FormGroup>
                   </Col>
                   <Col>
                     <FormGroup row>
@@ -191,7 +176,17 @@ class CreateOrder extends Component {
                   </Row>
                 </Form>
                 <hr />
-                <h5>Daftar Request</h5>
+                <Row>
+                <Col>
+                  <h5>Daftar Barang Order</h5>
+                </Col>
+                <Col>
+                    <Button onClick={this.toggleModal.bind(this)} label color="success" size="sm" className={'float-right mb-0'}>
+                        Pilih Barang
+                    </Button>
+                </Col>
+                </Row>
+                <br />
                   <Table hover bordered striped responsive size="sm">
                     <thead>
                     <tr>
@@ -203,7 +198,18 @@ class CreateOrder extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                      {this.displayListRequest()}
+                      {
+                         this.state.orderItems.map(item => {
+                          return(
+                            <tr>
+                              <td>{item.nama}</td>
+                              <td>{item.jumlah}</td>
+                              <td>{item.satuan}</td>
+                              <td>{item.jenis}</td>
+                            </tr>
+                          ) 
+                         })
+                      }
                     </tbody>
                   </Table>
                 <Button onClick={(e) => {this.submitRequest(e)}} color="primary">Submit</Button>
@@ -211,6 +217,50 @@ class CreateOrder extends Component {
             </Card>
           </Col>
         </Row>
+        <Modal isOpen={this.state.modalIsOpen}>
+          <ModalHeader>Form Tambah Barang</ModalHeader>
+          <ModalBody>
+            <Form onSubmit={(e) => {this.addItem(e)}}>
+              <FormGroup>
+                <Label htmlFor="name">Nama Barang</Label>
+                <Input type="select" name="nama" onChange={(e) =>this.setState({nama:e.target.value})} id="nama" required>
+                  <option>Nama Barang</option>
+                </Input>
+              </FormGroup>
+              <FormGroup>
+                <Label htmlFor="name">Jenis Barang</Label>
+                <Input type="select" id="jenis" onChange={(e) =>this.setState({jenis:e.target.value})} required>
+                  <option>Jenis</option>
+                  <option value="Bahan Alam">Bahan Alam</option>
+                  <option value="Besi">Besi</option>
+                  <option value="Cat">Cat</option>
+                  <option value="Kayu">Kayu</option>
+                  <option value="Keramik">Keramik</option>
+                  <option value="Material">Material</option>
+                </Input>
+              </FormGroup>
+              <FormGroup>
+                <Label htmlFor="name">Satuan</Label>
+                <Input type="select" name="satuan" id="satuan" onChange={(e) =>this.setState({satuan:e.target.value})}>
+                  <option>Satuan</option>
+                  <option value="Kg">Kg</option>
+                  <option value="Buah">Buah</option>
+                  <option value="Meter">Meter</option>
+                  <option value="Lembar">Lembar</option>
+                  <option value="Liter">Liter</option>
+                  <option value="Sak">Sak</option>
+                  <option value="m3">m3</option>
+                </Input>
+              </FormGroup>
+              <FormGroup>
+                <Label htmlFor="name">Jumlah Barang</Label>
+                <Input type="number" id="jumlah" onChange={(e) =>this.setState({jumlah:e.target.value})} placeholder="Jumlah Barang" required />
+              </FormGroup>
+              <Button type="submit" color="primary">Tambah</Button>
+              <Button color="danger" onClick={this.toggleModal.bind(this)}>Batal</Button>
+            </Form>
+          </ModalBody>  
+        </Modal>
       </div>
 
     );

@@ -3,14 +3,13 @@ import { Link } from 'react-router-dom';
 import {graphql} from 'react-apollo';
 import * as compose from 'lodash.flowright';
 import { getRequestsQuery} from '../queries/queries';
-import { Badge, Button, Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table } from 'reactstrap';
 
 class Request extends Component {
 
    constructor(props){
     super(props);
     this.state = {
-      requestItems: [],
       nama:'',
       jumlah:'',
       satuan:'',
@@ -23,7 +22,7 @@ class Request extends Component {
     var data1 = this.props.getRequestsQuery;
     var no = 0;
     if(data1.loading){
-      return (<div>Loading Divisi...</div>);
+      return (<div>Loading Permintaan Barang...</div>);
     } else {
       return data1.requests.map(request => {
         no++;
@@ -34,9 +33,19 @@ class Request extends Component {
             <td key={request.id}>{request.tanggal}</td>
             <td key={request.id}>{request.status}</td>
             <td key={request.id}>
-              <Link to="/request/detailRequest">
+              <Link to={ `/request/detailRequest/${request.id}` }>
                 <i className="fa fa-file"></i>
               </Link>
+            </td>
+            <td key={request.id}>
+              <Link to={ `/request/detailRequest/${request.id}` }>
+                Edit
+              </Link>
+              <td key={request.id}>
+              <Link to={ `/request/detailRequest/${request.id}` }>
+                Hapus
+              </Link>
+            </td>
             </td>
           </tr>
         );
@@ -53,7 +62,7 @@ class Request extends Component {
               <CardHeader>
                 <Row>
                 <Col>
-                  <h4>List Request</h4>
+                  <h5>Permintaan Barang</h5>
                 </Col>
                 <Col>
                   <Link to="/request/createRequest" className={'float-right mb-0'}>
@@ -73,6 +82,7 @@ class Request extends Component {
                     <th>Tanggal</th>
                     <th>Status</th>
                     <th>Detail</th>
+                    <th>Aksi</th>
                   </tr>
                   </thead>
                   <tbody align="center">

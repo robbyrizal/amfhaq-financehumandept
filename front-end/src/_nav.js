@@ -11,7 +11,7 @@ export default {
       icon: 'icon-speedometer',
     },
     {
-      name: 'Request',
+      name: 'Permintaan Barang',
       url: '/request/request',
       icon: 'icon-speedometer',
     },
@@ -25,12 +25,12 @@ export default {
       class: ''             // optional class names space delimited list for title item ex: "text-center"
     },
     {
-      name: 'Material',
-      url: '/material/stock',
+      name: 'Data Barang',
+      url: '/barang/barang',
       icon: 'icon-puzzle',
     },
     {
-      name: 'Peralatan',
+      name: 'Data Peralatan',
       url: '/base',
       icon: 'icon-puzzle',
       children: [

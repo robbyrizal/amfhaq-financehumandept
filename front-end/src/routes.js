@@ -36,7 +36,7 @@ const Widgets = React.lazy(() => import('./views/Widgets/Widgets'));
 const Users = React.lazy(() => import('./views/Users/Users'));
 const User = React.lazy(() => import('./views/Users/User'));
 
-const Stock = React.lazy(() => import('./views/Logistik/Material/Stock'));
+const Barang = React.lazy(() => import('./views/Logistik/Barang/Barang'));
 const Inventaris = React.lazy(() => import('./views/Logistik/Peralatan/Inventaris'));
 const Pemeliharaan = React.lazy(() => import('./views/Logistik/Peralatan/Pemeliharaan'));
 const Request = React.lazy(() => import('./views/Logistik/Request/Request'));
@@ -95,12 +95,12 @@ const routes = [
   { path: '/users', exact: true,  name: 'Users', component: Users },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
 
-  { path: '/material/stock', exact: true, name: 'Stock', component: Stock },
+  { path: '/barang/barang', exact: true, name: 'Barang', component: Barang },
   { path: '/peralatan/inventaris', exact: true, name: 'Inventaris', component: Inventaris },
   { path: '/peralatan/pemeliharaan', exact: true, name: 'Pemeliharaan', component: Pemeliharaan },
   { path: '/request/request', exact: true, name: 'Project Request', component: Request },
-  { path: '/request/detailRequest', exact: true, name: 'Detail Request', component: DetailRequest },
-  { path: '/request/createRequest', exact: true, name: 'Create Request', component: CreateRequest },
+  { path: '/request/detailRequest/:id', exact: true, name: 'Detail Request', component: DetailRequest },
+  { path: '/request/createRequest', exact: true, name: 'Permintaan Barang', component: CreateRequest },
   { path: '/order/listOrder', exact: true, name: 'List Order', component: ListOrder },
   { path: '/order/createOrder', exact: true, name: 'Create Order', component: CreateOrder },
   { path: '/order/detailOrder', exact: true, name: 'Detail Order', component: DetailOrder },

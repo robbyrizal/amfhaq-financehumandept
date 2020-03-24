@@ -6,6 +6,7 @@ const Divisi = require('../models/DivisiModel');
 const Request = require('../models/RequestModel');
 const ListRequest = require('../models/ListRequestModel');
 const Order = require('../models/OrderModel');
+const Barang = require('../models/BarangModel');
 
 
 const {
@@ -87,6 +88,7 @@ const ListRequestType = new GraphQLObjectType({
 		jumlah_barang: { type: GraphQLInt},
 		satuan: {type: GraphQLString},
 		jenis: {type: GraphQLString},
+		status: {type: GraphQLString},
 		request: {
 			type: RequestType,
 			resolve(parent,args){
@@ -110,6 +112,16 @@ const OrderType = new GraphQLObjectType({
 				return Vendor.findById(parent.vendor_id);
 			}
 		}
+	})
+});
+
+const BarangType = new GraphQLObjectType({
+	name: 'Barang',
+	fields: () => ({
+		id: {type: GraphQLID},
+		nama_barang: {type:GraphQLString},
+		jenis_barang: {type:GraphQLString},
+		satuan: {type:GraphQLString},
 	})
 });
 
@@ -198,6 +210,20 @@ const RootQuery = new GraphQLObjectType({
 				return Order.find({});
 			}
 		},
+		barang:{
+			type: BarangType,
+			args: {id:{type:GraphQLID}},
+			resolve(parent,args){
+				return Barang.findById(args.id);
+			}
+		},
+		barangs:{
+			type: new GraphQLList(BarangType),
+			args: {id:{type:GraphQLID}},
+			resolve(parent,args){
+				return Barang.find({});
+			}
+		},
 	}
 });
 
@@ -267,6 +293,7 @@ const Mutation = new GraphQLObjectType({
 				jumlah_barang: {type: new GraphQLNonNull(GraphQLInt)},
 				satuan: {type: new GraphQLNonNull(GraphQLString)},
 				jenis: {type: new GraphQLNonNull(GraphQLString)},
+				status: {type: new GraphQLNonNull(GraphQLString)},
 				request_id: {type: new GraphQLNonNull(GraphQLID)}
 			},
 			resolve(parent, args){
@@ -275,6 +302,7 @@ const Mutation = new GraphQLObjectType({
 					jumlah_barang: args.jumlah_barang,
 					satuan: args.satuan,
 					jenis: args.jenis,
+					status: args.status,
 					request_id: args.request_id
 				});
 				return listrequest.save();
@@ -298,6 +326,22 @@ const Mutation = new GraphQLObjectType({
 					vendor_id: args.vendor_id
 				});
 				return order.save();
+			}
+		},
+		addBarang:{
+			type: BarangType,
+			args:{
+				nama_barang: {type: new GraphQLNonNull(GraphQLString)},
+				jenis_barang: {type: new GraphQLNonNull(GraphQLString)},
+				satuan: {type: new GraphQLNonNull(GraphQLString)},
+			},
+			resolve(parent, args){
+				let barang = new Barang({
+					nama_barang: args.nama_barang,
+					jenis_barang: args.jenis_barang,
+					satuan:  args.satuan,
+				});
+				return barang.save();
 			}
 		},
 	}
