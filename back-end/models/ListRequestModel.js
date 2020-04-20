@@ -6,7 +6,6 @@ const ListRequestSchema = new Schema({
 	jumlah_barang: Number,
 	satuan: String,
 	jenis: String,
-	status: String,
 	request_id: String,
 });
 

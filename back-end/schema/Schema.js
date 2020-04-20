@@ -88,7 +88,6 @@ const ListRequestType = new GraphQLObjectType({
 		jumlah_barang: { type: GraphQLInt},
 		satuan: {type: GraphQLString},
 		jenis: {type: GraphQLString},
-		status: {type: GraphQLString},
 		request: {
 			type: RequestType,
 			resolve(parent,args){
@@ -270,6 +269,13 @@ const Mutation = new GraphQLObjectType({
 				return divisi.save();
 			}
 		},
+		hapusDivisi:{
+			type: DivisiType,
+			args: {id:{type:GraphQLID}},
+			resolve(parent,args){
+				return Divisi.deleteOne({_id:args.id});
+			}
+		},
 		addRequest:{
 			type: RequestType,
 			args:{
@@ -286,6 +292,13 @@ const Mutation = new GraphQLObjectType({
 				return request.save();
 			}
 		},
+		hapusRequest:{
+			type: RequestType,
+			args: {id:{type:GraphQLID}},
+			resolve(parent,args){
+				return Request.deleteOne({_id:args.id});
+			}
+		},
 		addListRequest:{
 			type: ListRequestType,
 			args:{
@@ -293,7 +306,6 @@ const Mutation = new GraphQLObjectType({
 				jumlah_barang: {type: new GraphQLNonNull(GraphQLInt)},
 				satuan: {type: new GraphQLNonNull(GraphQLString)},
 				jenis: {type: new GraphQLNonNull(GraphQLString)},
-				status: {type: new GraphQLNonNull(GraphQLString)},
 				request_id: {type: new GraphQLNonNull(GraphQLID)}
 			},
 			resolve(parent, args){
@@ -302,10 +314,16 @@ const Mutation = new GraphQLObjectType({
 					jumlah_barang: args.jumlah_barang,
 					satuan: args.satuan,
 					jenis: args.jenis,
-					status: args.status,
 					request_id: args.request_id
 				});
 				return listrequest.save();
+			}
+		},
+		hapusListRequest:{
+			type: ListRequestType,
+			args: {id:{type:GraphQLID}},
+			resolve(parent,args){
+				return ListRequest.deleteMany({request_id :args.id});
 			}
 		},
 		addOrder:{

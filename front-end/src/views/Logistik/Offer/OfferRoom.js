@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import {graphql} from 'react-apollo';
 import * as compose from 'lodash.flowright';
-import { getDivisisQuery, addDivisiMutation} from '../queries/queries';
+import { getDivisisQuery, addDivisiMutation, hapusDivisiMutation} from '../queries/queries';
 import {  
   Card, 
   CardBody, 
@@ -15,6 +15,9 @@ import {
   Form,
   Label,
   Input,
+  Modal,
+  ModalBody,
+  ModalHeader
 } from 'reactstrap';
 
 class OfferRoom extends Component {
@@ -22,7 +25,23 @@ class OfferRoom extends Component {
     super(props);
     this.state = {
       nama:'',
+      modalIsOpen: false,
     }
+  }
+
+  onDelete(divisi_id){
+    this.props.hapusDivisiMutation({
+      variables:{
+        id: divisi_id,        
+      },
+      refetchQueries:[{query:getDivisisQuery}],
+    });
+  }
+
+  toggleModal(divisi_id){
+    this.setState({
+      modalIsOpen: ! this.state.modalIsOpen
+    });
   }
 
   displayDivisis(){
@@ -34,6 +53,13 @@ class OfferRoom extends Component {
         return(
           <tr>
             <td key={divisi.id}>{divisi.nama}</td>
+            <td key={divisi.id}>
+             <Button onClick={this.toggleModal.bind(this, divisi.id)}>Edit</Button>
+            </td>
+            <td key={divisi.id}>
+              <Button onClick={this.onDelete.bind(this, divisi.id)}>Hapus</Button>
+            </td>
+
           </tr>
         );
       });
@@ -42,11 +68,14 @@ class OfferRoom extends Component {
 
   submitRequest(e){
    e.preventDefault();
-    this.props.addDivisiMutation({
+   var data = this.props.addDivisiMutation({
       variables:{
         nama:this.state.nama,
       },
       refetchQueries:[{query:getDivisisQuery}]
+    });
+    data.divisi.map(div =>{
+        console.log(div.id)
     });
   }
   
@@ -82,6 +111,8 @@ class OfferRoom extends Component {
                   <thead>
                   <tr>
                     <th>Nama</th>
+                    <th>Edit</th>
+                    <th>Hapus</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -92,6 +123,19 @@ class OfferRoom extends Component {
             </Card>
           </Col>
         </Row>
+        <Modal isOpen={this.state.modalIsOpen}>
+          <ModalHeader>Form Tambah Barang</ModalHeader>
+          <ModalBody>
+            <Form onSubmit={(e) => {this.addItem(e)}}>
+              <FormGroup>
+                <Label htmlFor="name">Nama Barang</Label>
+                <Input type="select" name="nama" onChange={(e) =>this.setState({nama:e.target.value})} id="nama" required></Input>
+              </FormGroup>
+              <Button type="submit" color="primary">Tambah</Button>
+              <Button color="danger" onClick={this.toggleModal.bind(this)}>Batal</Button>
+            </Form>
+          </ModalBody>  
+        </Modal>
       </div>
 
     );
@@ -100,5 +144,6 @@ class OfferRoom extends Component {
 
 export default compose(
   graphql(getDivisisQuery, {name:"getDivisisQuery"}),
-  graphql(addDivisiMutation, {name:"addDivisiMutation"})
+  graphql(addDivisiMutation, {name:"addDivisiMutation"}),
+  graphql(hapusDivisiMutation, {name:"hapusDivisiMutation"})
 )(OfferRoom);

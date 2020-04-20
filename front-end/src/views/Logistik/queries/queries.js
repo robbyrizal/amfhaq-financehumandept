@@ -114,6 +114,15 @@ const addDivisiMutation = gql`
 	}
 `
 
+const hapusDivisiMutation = gql`
+	mutation($id:ID!){
+		hapusDivisi(id: $id){
+			nama
+			id
+		}
+	}
+`
+
 const addRequestMutation = gql`
 	mutation($tanggal:String!, $status:String!, $divisi_id: ID!){
 		addRequest(tanggal: $tanggal, status: $status, divisi_id: $divisi_id){
@@ -123,10 +132,29 @@ const addRequestMutation = gql`
 		}
 	}
 `
+const hapusRequestMutation = gql`
+	mutation($id:ID!){
+		hapusRequest(id: $id){
+			status
+			id
+		}
+	}
+`
 
 const addListRequestMutation = gql`
 	mutation($nama_barang:String!, $jumlah_barang:Int!, $satuan:String!, $jenis:String!, $request_id: ID!){
 		addListRequest(nama_barang: $nama_barang, jumlah_barang: $jumlah_barang, satuan:$satuan, jenis:$jenis, request_id: $request_id){
+			nama_barang
+			jumlah_barang
+			satuan
+			jenis
+			id
+		}
+	}
+`
+const hapusListRequestMutation = gql`
+	mutation($id:ID!){
+		hapusListRequest(id: $id){
 			nama_barang
 			jumlah_barang
 			satuan
@@ -194,4 +222,7 @@ export {
 	addRequestMutation,
 	addListRequestMutation,
 	addBarangMutation,
+	hapusDivisiMutation,
+	hapusRequestMutation,
+	hapusListRequestMutation,
 };

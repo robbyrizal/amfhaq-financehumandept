@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import {graphql} from 'react-apollo';
 import * as compose from 'lodash.flowright';
-import { getRequestsQuery} from '../queries/queries';
+import { getRequestsQuery, addRequestMutation, hapusRequestMutation, getListRequestsQuery, hapusListRequestMutation} from '../queries/queries';
 import { Button, Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table } from 'reactstrap';
 
 class Request extends Component {
@@ -15,7 +15,23 @@ class Request extends Component {
       satuan:'',
       div_id:'',
       request_id:'',
+      addRequest:false
       }
+  }
+
+  onDelete(request_id){
+   this.props.hapusRequestMutation({
+      variables:{
+        id: request_id,        
+      },
+      refetchQueries:[{query:getRequestsQuery}],
+    });
+   this.props.hapusListRequestMutation({
+      variables:{
+        id: request_id,        
+      },
+      refetchQueries:[{query:getRequestsQuery}],
+    });
   }
 
   displayRequest(){
@@ -38,19 +54,29 @@ class Request extends Component {
               </Link>
             </td>
             <td key={request.id}>
-              <Link to={ `/request/detailRequest/${request.id}` }>
+              <Link to={ `/request/editRequest/${request.id}` }>
                 Edit
               </Link>
-              <td key={request.id}>
-              <Link to={ `/request/detailRequest/${request.id}` }>
-                Hapus
-              </Link>
             </td>
+            <td key={request.id}>
+                <Button onClick={this.onDelete.bind(this, request.id)}>Hapus</Button>
             </td>
           </tr>
         );
       });
     }
+  }
+
+  addRequestHandler(){
+    this.props.addRequestMutation({
+        variables:{
+          tanggal: '03-04-2020',
+          status: 'Pending',
+          divisi_id: "5e683dddd0a9ae1b7c2ad242",
+        },
+        refetchQueries:[{query:getRequestsQuery}],
+        });
+    console.log('sukses');
   }
 
   render() {
@@ -66,8 +92,8 @@ class Request extends Component {
                 </Col>
                 <Col>
                   <Link to="/request/createRequest" className={'float-right mb-0'}>
-                    <Button label color="primary">
-                        Buat Request
+                    <Button color="primary" onClick={this.addRequestHandler.bind(this)}>
+                        Buat Permintaan
                     </Button>
                   </Link>
                 </Col>
@@ -82,7 +108,8 @@ class Request extends Component {
                     <th>Tanggal</th>
                     <th>Status</th>
                     <th>Detail</th>
-                    <th>Aksi</th>
+                    <th>Edit</th>
+                    <th>Hapus</th>
                   </tr>
                   </thead>
                   <tbody align="center">
@@ -113,4 +140,8 @@ class Request extends Component {
 
 export default compose(
   graphql(getRequestsQuery, {name:"getRequestsQuery"}),
+  graphql(getListRequestsQuery, {name:"getListRequestsQuery"}),
+  graphql(addRequestMutation, {name:"addRequestMutation"}),
+  graphql(hapusRequestMutation, {name:"hapusRequestMutation"}),
+  graphql(hapusListRequestMutation, {name:"hapusListRequestMutation"}),
 )(Request);
