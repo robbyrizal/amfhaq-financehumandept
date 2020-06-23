@@ -48,6 +48,8 @@ const DetailOrder = React.lazy(() => import('./views/Logistik/Order/DetailOrder'
 const ListVendor = React.lazy(() => import('./views/Logistik/Vendor/ListVendor'));
 const OfferRoom = React.lazy(() => import('./views/Logistik/Offer/OfferRoom'));
 
+const Penjualan = React.lazy(() => import('./views/Finance/Transaksi/Penjualan'));
+const BuatPenjualan = React.lazy(() => import('./views/Finance/Transaksi/BuatPenjualan'));
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -103,6 +105,9 @@ const routes = [
   { path: '/order/detailOrder', exact: true, name: 'Detail Order', component: DetailOrder },
   { path: '/vendor/listVendor', exact: true, name: 'List Vendor', component: ListVendor },
   { path: '/offer/offerRoom', exact: true, name: 'Offer Room', component: OfferRoom },
+
+  { path: '/transaksi/penjualan', exact: true, name: 'Transaksi', component: Penjualan },
+  { path: '/transaksi/buatPenjualan', exact: true, name: 'Buat Penjualan', component: BuatPenjualan },
 ];
 
 export default routes;
