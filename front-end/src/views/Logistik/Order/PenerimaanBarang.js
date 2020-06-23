@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardBody, CardHeader, Col, Pagination, PaginationItem,Button, PaginationLink, Row, Table } from 'reactstrap';
 
-class ListOrder extends Component {
+class PenerimaanBarang extends Component {
   render() {
     return (
       <div className="animated fadeIn">
@@ -10,18 +10,12 @@ class ListOrder extends Component {
           <Col>
             <Card>
               <CardHeader>
-                <Row>
-                <Col>
-                  Daftar Purchase Order
-                </Col>
-                <Col>
-                  <Link to="/order/createOrder" className={'float-right mb-0'}>
-                    <Button label color="primary" size="sm">
-                        <i className="fa fa-plus"></i> Purchase Order
-                    </Button>
-                  </Link>
-                </Col>
-                </Row>
+                Penerimaan Barang Order
+                <Link to="/order/createOrder" className={'float-right mb-0'}>
+                  <Button label color="primary">
+                      Buat Order
+                  </Button>
+                </Link>
               </CardHeader>
               <CardBody>
                 <Table hover bordered striped responsive size="sm">
@@ -74,4 +68,4 @@ class ListOrder extends Component {
   }
 }
 
-export default ListOrder;
+export default PenerimaanBarang;

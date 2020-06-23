@@ -5,8 +5,13 @@ export default {
       url: '/dashboard',
       icon: 'icon-speedometer',
     },
+      {
+      name: 'My Dashboard',
+      url: '/dashboardLogistik/dashboardLogistik',
+      icon: 'icon-speedometer',
+    },
     {
-      name: 'Request',
+      name: 'Permintaan Barang',
       url: '/request/request',
       icon: 'icon-speedometer',
     },
@@ -105,12 +110,12 @@ export default {
       class: ''             // optional class names space delimited list for title item ex: "text-center"
     },
     {
-      name: 'Material',
-      url: '/material/stock',
+      name: 'Data Barang',
+      url: '/barang/barang',
       icon: 'icon-puzzle',
     },
     {
-      name: 'Peralatan',
+      name: 'Data Peralatan',
       url: '/base',
       icon: 'icon-puzzle',
       children: [
@@ -139,6 +144,23 @@ export default {
       name: 'Order',
       url: '/order/listOrder',
       icon: 'icon-pie-chart',
+      children: [
+        {
+          name: 'Purchase Order',
+          url: '/order/listOrder',
+          icon: 'icon-puzzle',
+        },
+        {
+          name: 'Penerimaan Barang',
+          url: '/order/penerimaanBarang',
+          icon: 'icon-puzzle',
+        },
+        {
+          name: 'Pengambilan Barang',
+          url: '/order/pengambilanBarang',
+          icon: 'icon-puzzle',
+        },
+      ],
     },
     {
       name: 'Vendor',
@@ -146,7 +168,7 @@ export default {
       icon: 'icon-home',
     },
     {
-      name: 'Offer Room',
+      name: 'test',
       url: '/offer/offerRoom',
       icon: 'icon-home',
     },

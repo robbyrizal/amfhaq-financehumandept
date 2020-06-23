@@ -1,8 +1,84 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Badge, Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table } from 'reactstrap';
+import { Redirect, Link } from 'react-router-dom';
+import {graphql} from 'react-apollo';
+import * as compose from 'lodash.flowright';
+import { getRequestsQuery, addRequestMutation, hapusRequestMutation, getListRequestsQuery, hapusListRequestMutation} from '../queries/queries';
+import { Button, Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table } from 'reactstrap';
 
 class Request extends Component {
+
+   constructor(props){
+    super(props);
+    this.state = {
+      nama:'',
+      jumlah:'',
+      satuan:'',
+      div_id:'',
+      request_id:'',
+      addRequest:false
+      }
+  }
+
+  onDelete(request_id){
+   this.props.hapusRequestMutation({
+      variables:{
+        id: request_id,        
+      },
+      refetchQueries:[{query:getRequestsQuery}],
+    });
+   this.props.hapusListRequestMutation({
+      variables:{
+        id: request_id,        
+      },
+      refetchQueries:[{query:getRequestsQuery}],
+    });
+  }
+
+  displayRequest(){
+    var data1 = this.props.getRequestsQuery;
+    var no = 0;
+    if(data1.loading){
+      return (<div>Loading Permintaan Barang...</div>);
+    } else {
+      return data1.requests.map(request => {
+        no++;
+        return(
+          <tr>
+            <td key={request.id}>{no}</td>
+            <td key={request.id}>{request.divisi.nama}</td>
+            <td key={request.id}>{request.tanggal}</td>
+            <td key={request.id}>{request.status}</td>
+            <td key={request.id}>
+              <Link to={ `/request/detailRequest/${request.id}` }>
+                <i className="fa fa-file"></i>
+              </Link>
+            </td>
+            <td key={request.id}>
+              <Link to={ `/request/editRequest/${request.id}` }>
+                Edit
+              </Link>
+            </td>
+            <td key={request.id}>
+                <Button onClick={this.onDelete.bind(this, request.id)}>Hapus</Button>
+            </td>
+          </tr>
+        );
+      });
+    }
+  }
+
+  addRequestHandler(){
+    this.props.addRequestMutation({
+        variables:{
+          tanggal: '03-04-2020',
+          status: 'Pending',
+          divisi_id: "5e683dddd0a9ae1b7c2ad242",
+        },
+        refetchQueries:[{query:getRequestsQuery}],
+        });
+    console.log('sukses');
+  }
+
   render() {
     return (
       <div className="animated fadeIn">
@@ -10,35 +86,34 @@ class Request extends Component {
           <Col>
             <Card>
               <CardHeader>
-                Project's Request
+                <Row>
+                <Col>
+                  <h5>Permintaan Barang</h5>
+                </Col>
+                <Col>
+                  <Link to="/request/createRequest" className={'float-right mb-0'}>
+                    <Button color="primary" onClick={this.addRequestHandler.bind(this)}>
+                        Buat Permintaan
+                    </Button>
+                  </Link>
+                </Col>
+                </Row>
               </CardHeader>
               <CardBody>
                 <Table hover bordered striped responsive size="sm">
-                  <thead>
+                  <thead align="center">
                   <tr>
-                    <th>Project Name</th>
-                    <th>Material</th>
-                    <th>Tools</th>
+                    <th>No</th>
+                    <th>Divisi</th>
+                    <th>Tanggal</th>
                     <th>Status</th>
+                    <th>Detail</th>
+                    <th>Edit</th>
+                    <th>Hapus</th>
                   </tr>
                   </thead>
-                  <tbody>
-                  <tr>
-                    <td>Renovasi Rumah</td>
-                    <td>
-                      <Link to="/request/materialRequest" className="ml-auto">
-                        Detail
-                      </Link>
-                    </td>
-                    <td>
-                      <Link to="/request/toolRequest" className="ml-auto">
-                        Detail
-                      </Link>
-                    </td>
-                    <td>
-                      <Badge color="success">Done</Badge>
-                    </td>
-                  </tr>
+                  <tbody align="center">
+                  {this.displayRequest()}
                   </tbody>
                 </Table>
                 <nav>
@@ -63,4 +138,10 @@ class Request extends Component {
   }
 }
 
-export default Request;
+export default compose(
+  graphql(getRequestsQuery, {name:"getRequestsQuery"}),
+  graphql(getListRequestsQuery, {name:"getListRequestsQuery"}),
+  graphql(addRequestMutation, {name:"addRequestMutation"}),
+  graphql(hapusRequestMutation, {name:"hapusRequestMutation"}),
+  graphql(hapusListRequestMutation, {name:"hapusListRequestMutation"}),
+)(Request);

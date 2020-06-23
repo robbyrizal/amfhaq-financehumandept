@@ -36,17 +36,21 @@ const Widgets = React.lazy(() => import('./views/Widgets/Widgets'));
 const Users = React.lazy(() => import('./views/Users/Users'));
 const User = React.lazy(() => import('./views/Users/User'));
 
-const Stock = React.lazy(() => import('./views/Logistik/Material/Stock'));
+const Barang = React.lazy(() => import('./views/Logistik/Barang/Barang'));
 const Inventaris = React.lazy(() => import('./views/Logistik/Peralatan/Inventaris'));
 const Pemeliharaan = React.lazy(() => import('./views/Logistik/Peralatan/Pemeliharaan'));
 const Request = React.lazy(() => import('./views/Logistik/Request/Request'));
-const MaterialRequest = React.lazy(() => import('./views/Logistik/Request/MaterialRequest'));
-const ToolRequest = React.lazy(() => import('./views/Logistik/Request/ToolRequest'));
+const DetailRequest = React.lazy(() => import('./views/Logistik/Request/DetailRequest'));
+const CreateRequest = React.lazy(() => import('./views/Logistik/Request/CreateRequest'));
+const EditRequest = React.lazy(() => import('./views/Logistik/Request/EditRequest'));
 const ListOrder = React.lazy(() => import('./views/Logistik/Order/ListOrder'));
 const CreateOrder = React.lazy(() => import('./views/Logistik/Order/CreateOrder'));
 const DetailOrder = React.lazy(() => import('./views/Logistik/Order/DetailOrder'));
+const PenerimaanBarang = React.lazy(() => import('./views/Logistik/Order/PenerimaanBarang'));
+const PengambilanBarang = React.lazy(() => import('./views/Logistik/Order/PengambilanBarang'));
 const ListVendor = React.lazy(() => import('./views/Logistik/Vendor/ListVendor'));
 const OfferRoom = React.lazy(() => import('./views/Logistik/Offer/OfferRoom'));
+const DashboardLogistik = React.lazy(() => import('./views/Logistik/DashboardLogistik/DashboardLogistik'));
 
 const Penjualan = React.lazy(() => import('./views/Finance/Transaksi/Penjualan'));
 const BuatPenjualan = React.lazy(() => import('./views/Finance/Transaksi/BuatPenjualan'));
@@ -94,20 +98,27 @@ const routes = [
   { path: '/users', exact: true,  name: 'Users', component: Users },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
 
-  { path: '/material/stock', exact: true, name: 'Stock', component: Stock },
+  { path: '/barang/barang', exact: true, name: 'Barang', component: Barang },
   { path: '/peralatan/inventaris', exact: true, name: 'Inventaris', component: Inventaris },
   { path: '/peralatan/pemeliharaan', exact: true, name: 'Pemeliharaan', component: Pemeliharaan },
-  { path: '/request/request', exact: true, name: 'Project Request', component: Request },
-  { path: '/request/materialRequest', exact: true, name: 'Detail Request', component: MaterialRequest },
-  { path: '/request/toolRequest', exact: true, name: 'Detail Request', component: ToolRequest },
+  { path: '/request/request', exact: true, name: 'Permintaan Barang', component: Request },
+  { path: '/request/detailRequest/:id', exact: true, name: 'Detail Permintaan', component: DetailRequest },
+  { path: '/request/createRequest', exact: true, name: 'Permintaan Barang', component: CreateRequest },
+  { path: '/request/editRequest/:id', exact: true, name: 'Edit Permintaan Barang', component: EditRequest },
   { path: '/order/listOrder', exact: true, name: 'List Order', component: ListOrder },
   { path: '/order/createOrder', exact: true, name: 'Create Order', component: CreateOrder },
   { path: '/order/detailOrder', exact: true, name: 'Detail Order', component: DetailOrder },
+  { path: '/order/penerimaanBarang', exact: true, name: 'Penermaan Barang Order', component: PenerimaanBarang },
+  { path: '/order/pengambilanBarang', exact: true, name: 'Pengambilan Barang Order', component: PengambilanBarang },
   { path: '/vendor/listVendor', exact: true, name: 'List Vendor', component: ListVendor },
   { path: '/offer/offerRoom', exact: true, name: 'Offer Room', component: OfferRoom },
+<<<<<<< HEAD
 
   { path: '/transaksi/penjualan', exact: true, name: 'Transaksi', component: Penjualan },
   { path: '/transaksi/buatPenjualan', exact: true, name: 'Buat Penjualan', component: BuatPenjualan },
+=======
+  { path: '/dashboardLogistik/dashboardLogistik', exact: true, name: 'Dashboard', component: DashboardLogistik },
+>>>>>>> c4fa3910e9d3a3aee8f90e475cf8400c4ea3df71
 ];
 
 export default routes;

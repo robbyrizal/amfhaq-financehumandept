@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import {graphql} from 'react-apollo';
 import * as compose from 'lodash.flowright';
-import { getVendorsQuery, getOrdersQuery, getListRequestsQuery, addRequestMutation, addListRequestMutation} from '../queries/queries';
+import { hapusRequestMutation, getRequestsQuery, getBarangsQuery, getListRequestsQuery, addListRequestMutation} from '../queries/queries';
 import {  
   Card, 
   CardBody, 
@@ -16,31 +16,69 @@ import {
   Label,
   Input,
   Modal,
+  ModalHeader, 
   ModalBody,
-  ModalHeader
 } from 'reactstrap';
 
-class CreateOrder extends Component {
+class CreateRequest extends Component {
   constructor(props){
     super(props);
     this.state = {
-      orderItems: [],
-      kode:'',
+      requestItems: [],
+      nama:'',
       status: 'Active',
+      jumlah:'',
       satuan:'',
       jenis:'',
-      vendor_id:'',
+      req_id:'',
+      redirect: true,
+      selected: null,
     }
   }
 
-   displayVendor(){
-    var data = this.props.getVendorsQuery;
+  displayNewRequest(){
+    var data = this.props.getRequestsQuery;
+    var request_id = '';
+    var status = '';
+    data.requests.map(request => {
+      return(
+        request_id = request.id,
+        status = request.status
+      );
+    });
+    return(
+      <div>
+        <h5>{status}</h5>
+        <h5>{request_id}</h5>
+      </div>
+    );
+  }
+
+  onDelete(){
+    var data = this.props.getRequestsQuery;
+    var request_id = '';
+    data.requests.map(request => {
+      return(
+        request_id = request.id
+      );
+    });
+    this.props.hapusRequestMutation({
+      variables:{
+        id: request_id,        
+      },
+      refetchQueries:[{query:getRequestsQuery}],
+    });
+  }
+
+
+  displayBarang(){
+    var data = this.props.getBarangsQuery;
     if(data.loading){
-      return (<div>Loading Divisi...</div>);
+      return (<div>Loading Barang...</div>);
     } else {
-      return data.vendors.map(vendor => {
+      return data.barangs.map(barang => {
         return(
-          <option key={vendor.id} value={vendor.id}>{vendor.nama}</option>
+          <option key={barang.id} value={barang.nama_barang}>{barang.nama_barang}</option>
         );
       });
     }
@@ -52,73 +90,39 @@ class CreateOrder extends Component {
     });
   }
 
-  displayListRequest(){
-    var data = this.props.getListRequestsQuery;
-    if(data.loading){
-      return (<div>Loading Divisi...</div>);
-    } else {
-      return data.listrequests.map(listrequest => {
-        return(
-           <tr>
-            <td key={listrequest.id}>{listrequest.nama_barang}</td>
-            <td key={listrequest.id}>{listrequest.jumlah_barang}</td>
-            <td key={listrequest.id}>{listrequest.satuan}</td>
-            <td key={listrequest.id}>{listrequest.jenis}</td>
-            <td key={listrequest.id}>
-              <Button size="sm">ADD</Button>
-            </td>
-          </tr>
-        );
-      });
-    }
-  }
-
-  /*addItem(e){
+  addItem(e){
     e.preventDefault();
-    const newItem = { nama: this.state.nama, jumlah: this.state.jumlah, satuan: this.state.satuan, jenis: this.state.jenis};
-    
+    this.toggleModal();
+    const newItem = { nama: this.state.nama, jumlah: this.state.jumlah, satuan: this.state.satuan, jenis: this.state.jenis, status: this.state.status};
     this.setState(state => {
       state.requestItems.push(newItem);
     });
-     console.log(this.state.id);
-  }*/
-
-  /*submitDivisi(e){
-    e.preventDefault();
-    this.props.addRequestMutation({
-      variables:{
-        tanggal: '03-11-2020',
-        status: this.state.status,
-        divisi_id: this.state.div_id,
-      },
-      refetchQueries:[{query:getRequestsQuery}],
-    });
-  }*/
-
-  submitRequest(e){
-    var data = this.props.getRequestsQuery;
-    var request_id = '';
-    data.requests.map(request => {
-        return(
-           request_id = request.id,
-           console.log(request_id)
-        );
-    });
-    this.state.requestItems.map(item => {
-      return(
-        this.props.addListRequestMutation({
-          variables:{
-            nama_barang: item.nama,
-            jumlah_barang: parseInt(item.jumlah),
-            satuan: item.satuan,
-            jenis: item.jenis,
-            request_id: request_id,
-          },
-        })
-      );
-    });
   }
-  
+
+
+  submitRequest = (e) => {
+      var data = this.props.getRequestsQuery;
+      var request_id = '';
+      data.requests.map(request => {
+          return(
+             request_id = request.id
+          );
+      });
+      this.state.requestItems.map(item => {
+        return(
+          this.props.addListRequestMutation({
+            variables:{
+              nama_barang: item.nama,
+              jumlah_barang: parseInt(item.jumlah),
+              satuan: item.satuan,
+              jenis: item.jenis,
+              request_id: request_id,
+            },
+            refetchQueries:[{query:getListRequestsQuery}],
+          })
+        );
+      });
+  }
   
   render() {
     return (
@@ -127,9 +131,9 @@ class CreateOrder extends Component {
           <Col>
             <Card>
               <CardHeader>
-                Form Create Order
-                <Link to="/order/listOrder" className={'float-right mb-0'}>
-                  <Button label color="danger">
+                Form Permintaan Barang
+                <Link to="/request/request" className={'float-right mb-0'}>
+                  <Button label color="danger" onClick={this.onDelete.bind(this)}>
                       Batal
                   </Button>
                 </Link>
@@ -137,56 +141,24 @@ class CreateOrder extends Component {
               <CardBody>
                <Form onSubmit={(e) => {this.addItem(e)}}>
                 <Row form>
-
-                  <Col md="4" mr-3>
-                     <FormGroup row>
-                      <Label for="exampleEmail" sm={4}>Kode Order</Label>
-                      <Col sm={8}>
-                        <Input type="text" name="kode" id="kode" />
-                      </Col>
-                    </FormGroup>
-                    <FormGroup row>
-                      <Label for="exampleEmail" sm={4}>Tanggal Order</Label>
-                      <Col sm={8}>
-                        <Input type="text" name="tanggal" id="tanggal" />
-                      </Col>
-                    </FormGroup>
-                  </Col>
-
                   <Col md="4">
-                    <FormGroup row>
-                      <Label htmlFor="name" sm={4} >Vendor</Label>
-                      <Col sm={8}>
-                        <Input type="select" name="vendor" id="vendor">
-                        <option >Pilih Vendor</option>
-                        {this.displayVendor()}
-                      </Input>
-                      </Col>
-                    </FormGroup>
+                    {this.displayNewRequest()}
                   </Col>
-                  <Col>
-                    <FormGroup row>
-                      <Label htmlFor="name" sm={4}>Status Order</Label>
-                       <Col sm={8}>
-                        <Input type="text" name="status" id="status" />
-                      </Col>
-                    </FormGroup>
+                  <Col md="2">
+                    
                   </Col>
-                  
-                  </Row>
+                </Row>
+                
                 </Form>
                 <hr />
                 <Row>
-                <Col>
-                  <h5>Daftar Barang Order</h5>
-                </Col>
-                <Col>
-                    <Button onClick={this.toggleModal.bind(this)} label color="success" size="sm" className={'float-right mb-0'}>
-                        Pilih Barang
-                    </Button>
-                </Col>
+                  <Col>
+                    <h5>Daftar Barang</h5>
+                  </Col>
+                  <Col >
+                    <Button onClick={this.toggleModal.bind(this)} size="sm" color="success" className={'float-right mb-0'}><i className="fa fa-plus-circle"></i> Tambah Barang</Button>
+                  </Col>
                 </Row>
-                <br />
                   <Table hover bordered striped responsive size="sm">
                     <thead>
                     <tr>
@@ -194,25 +166,29 @@ class CreateOrder extends Component {
                       <th>Jumlah</th>
                       <th>Satuan</th>
                       <th>Jenis Barang</th>
-                      <th>Aksi</th>
+                      <th>status</th>
                     </tr>
                     </thead>
                     <tbody>
                       {
-                         this.state.orderItems.map(item => {
+                         this.state.requestItems.map(item => {
                           return(
                             <tr>
                               <td>{item.nama}</td>
                               <td>{item.jumlah}</td>
                               <td>{item.satuan}</td>
                               <td>{item.jenis}</td>
+                              <td>{item.status}</td>
                             </tr>
                           ) 
                          })
                       }
                     </tbody>
                   </Table>
-                <Button onClick={(e) => {this.submitRequest(e)}} color="primary">Submit</Button>
+                  <br />
+                  <Link to="/request/request">
+                    <Button onClick={(e) => {this.submitRequest(e)}} color="primary">Submit</Button>
+                  </Link>
               </CardBody>
             </Card>
           </Col>
@@ -225,6 +201,7 @@ class CreateOrder extends Component {
                 <Label htmlFor="name">Nama Barang</Label>
                 <Input type="select" name="nama" onChange={(e) =>this.setState({nama:e.target.value})} id="nama" required>
                   <option>Nama Barang</option>
+                  {this.displayBarang()}
                 </Input>
               </FormGroup>
               <FormGroup>
@@ -262,17 +239,15 @@ class CreateOrder extends Component {
           </ModalBody>  
         </Modal>
       </div>
-
     );
   }
 }
 
-export default compose(
-  
-  graphql(getVendorsQuery, {name:"getVendorsQuery"}),
-  graphql(getOrdersQuery, {name:"getOrdersQuery"}),
+export default compose( 
+  graphql(getBarangsQuery, {name:"getBarangsQuery"}),
+  graphql(getRequestsQuery, {name:"getRequestsQuery"}),
   graphql(getListRequestsQuery, {name:"getListRequestsQuery"}),
-  graphql(addRequestMutation, {name:"addRequestMutation"}),
   graphql(addListRequestMutation, {name:"addListRequestMutation"}),
+  graphql(hapusRequestMutation, {name:"hapusRequestMutation"}),
   
-)(CreateOrder);
+)(CreateRequest);
