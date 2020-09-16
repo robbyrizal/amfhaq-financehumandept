@@ -36,22 +36,7 @@ const Widgets = React.lazy(() => import('./views/Widgets/Widgets'));
 const Users = React.lazy(() => import('./views/Users/Users'));
 const User = React.lazy(() => import('./views/Users/User'));
 
-const Barang = React.lazy(() => import('./views/Logistik/Barang/Barang'));
-const Inventaris = React.lazy(() => import('./views/Logistik/Peralatan/Inventaris'));
-const Pemeliharaan = React.lazy(() => import('./views/Logistik/Peralatan/Pemeliharaan'));
-const Request = React.lazy(() => import('./views/Logistik/Request/Request'));
-const DetailRequest = React.lazy(() => import('./views/Logistik/Request/DetailRequest'));
-const CreateRequest = React.lazy(() => import('./views/Logistik/Request/CreateRequest'));
-const EditRequest = React.lazy(() => import('./views/Logistik/Request/EditRequest'));
-const ListOrder = React.lazy(() => import('./views/Logistik/Order/ListOrder'));
-const CreateOrder = React.lazy(() => import('./views/Logistik/Order/CreateOrder'));
-const DetailOrder = React.lazy(() => import('./views/Logistik/Order/DetailOrder'));
-const PenerimaanBarang = React.lazy(() => import('./views/Logistik/Order/PenerimaanBarang'));
-const PengambilanBarang = React.lazy(() => import('./views/Logistik/Order/PengambilanBarang'));
-const ListVendor = React.lazy(() => import('./views/Logistik/Vendor/ListVendor'));
-const OfferRoom = React.lazy(() => import('./views/Logistik/Offer/OfferRoom'));
-const DashboardLogistik = React.lazy(() => import('./views/Logistik/DashboardLogistik/DashboardLogistik'));
-
+ 
 const Pengeluaran = React.lazy(() => import('./views/Finance/Transaksi/Pengeluaran'));
 const BuatPengeluaran = React.lazy(() => import('./views/Finance/Transaksi/BuatPengeluaran'));
 const Pemasukan = React.lazy(() => import('./views/Finance/Transaksi/Pemasukan'));
@@ -106,21 +91,6 @@ const routes = [
   { path: '/users', exact: true,  name: 'Users', component: Users },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
 
-  { path: '/barang/barang', exact: true, name: 'Barang', component: Barang },
-  { path: '/peralatan/inventaris', exact: true, name: 'Inventaris', component: Inventaris },
-  { path: '/peralatan/pemeliharaan', exact: true, name: 'Pemeliharaan', component: Pemeliharaan },
-  { path: '/request/request', exact: true, name: 'Permintaan Barang', component: Request },
-  { path: '/request/detailRequest/:id', exact: true, name: 'Detail Permintaan', component: DetailRequest },
-  { path: '/request/createRequest', exact: true, name: 'Permintaan Barang', component: CreateRequest },
-  { path: '/request/editRequest/:id', exact: true, name: 'Edit Permintaan Barang', component: EditRequest },
-  { path: '/order/listOrder', exact: true, name: 'List Order', component: ListOrder },
-  { path: '/order/createOrder', exact: true, name: 'Create Order', component: CreateOrder },
-  { path: '/order/detailOrder', exact: true, name: 'Detail Order', component: DetailOrder },
-  { path: '/order/penerimaanBarang', exact: true, name: 'Penermaan Barang Order', component: PenerimaanBarang },
-  { path: '/order/pengambilanBarang', exact: true, name: 'Pengambilan Barang Order', component: PengambilanBarang },
-  { path: '/vendor/listVendor', exact: true, name: 'List Vendor', component: ListVendor },
-  { path: '/offer/offerRoom', exact: true, name: 'Offer Room', component: OfferRoom },
-
 
   { path: '/transaksi/pengeluaran', exact: true, name: 'Transaksi', component: Pengeluaran },
   { path: '/transaksi/buatPengeluaran', exact: true, name: 'Tambah Pengeluaran', component: BuatPengeluaran },
@@ -133,7 +103,6 @@ const routes = [
   { path: '/karyawan/datakaryawan', exact: true, name: 'Data Karyawan', component: DataKaryawan },
   { path: '/karyawan/tambahkaryawan', exact: true, name: 'Tambah Karyawan', component: TambahKaryawan },
 
-  { path: '/dashboardLogistik/dashboardLogistik', exact: true, name: 'Dashboard', component: DashboardLogistik },
 
 ];
 

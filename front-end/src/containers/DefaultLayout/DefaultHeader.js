@@ -4,7 +4,8 @@ import { Badge, UncontrolledDropdown, DropdownItem, DropdownMenu, DropdownToggle
 import PropTypes from 'prop-types';
 
 import {  AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
-import sygnet from '../../assets/img/brand/sygnet.svg'
+import sygnet from '../../assets/img/brand/sygnet.svg';
+import amfhaq from '../../assets/img/brand/amfhaq.PNG';
 
 const propTypes = {
   children: PropTypes.node,
@@ -22,7 +23,7 @@ class DefaultHeader extends Component {
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
         <AppNavbarBrand
-          full={{ width: 89, height: 25, alt: 'AMF-HAQ' }}
+          full={{ src: amfhaq,  width: 89, height: 35, alt: 'AMF-HAQ' }}
           minimized={{ src: sygnet, width: 30, height: 30, alt: 'CoreUI Logo' }}
         />
         <AppSidebarToggler className="d-md-down-none" display="lg" />
