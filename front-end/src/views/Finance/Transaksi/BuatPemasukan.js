@@ -19,7 +19,7 @@ import {
   InputGroup,
 } from 'reactstrap';
 
-class BuatPenjualan extends Component {
+class BuatPemasukan extends Component {
   render() {
     return (
       <div className="animated fadeIn">
@@ -28,8 +28,8 @@ class BuatPenjualan extends Component {
           <Col>
             <Card>
               <CardHeader>
-                Buat Transaksi Penjualan Baru
-                <Link to="/transaksi/penjualan" className={'float-right mb-0'}>
+                Buat Transaksi Pemasukan Baru
+                <Link to="/transaksi/pemasukan" className={'float-right mb-0'}>
                   <Button label color="danger">
                       Batal
                   </Button>
@@ -79,6 +79,20 @@ class BuatPenjualan extends Component {
                   <option value="Renovasi">Renovasi</option>
                 </Input>
               </FormGroup>
+              <FormGroup>
+                <Label htmlFor="name">Akun Debet</Label>
+                <Input type="select" name="akun_deb" id="akun_kre">
+                  <option value="101">Kas</option>
+                </Input>
+              </FormGroup>
+              <FormGroup>
+                <Label htmlFor="name">Akun Kredit</Label>
+                <Input type="select" name="akun_kre" id="akun_kre">
+                  <option value="303">Beban Gaji</option>
+                  <option value="302">Beban Sewa</option>
+                  <option value="301">Modal Awal</option>
+                </Input>
+              </FormGroup>
                 <Button type="Submit" size="sm" color="primary" className={'float-right mb-0'}><i className="fa fa-pencil"></i> Submit</Button>
               </CardBody>
             </Card>
@@ -90,4 +104,4 @@ class BuatPenjualan extends Component {
   }
 }
 
-export default BuatPenjualan;
+export default BuatPemasukan;

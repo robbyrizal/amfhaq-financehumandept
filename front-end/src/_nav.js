@@ -30,20 +30,16 @@ export default {
       icon: 'icon-puzzle',
       children: [
         {
-          name: 'Penjualan',
-          url: '/transaksi/penjualan',
-          icon: 'icon-puzzle',
+          name: 'Pengeluaran',
+          url: '/transaksi/pengeluaran',
+          icon: 'icon-pie-chart',
         },
         {
-          name: 'Pembelian',
-          url: '/peralatan/pemeliharaan',
-          icon: 'icon-puzzle',
+          name: 'Pemasukan',
+          url: '/transaksi/pemasukan',
+          icon: 'icon-pie-chart',
         },
-        {
-          name: 'Jurnal Umum',
-          url: '/peralatan/pemeliharaan',
-          icon: 'icon-puzzle',
-        },
+
       ],
     },  {
         name: 'Laporan',
@@ -51,14 +47,19 @@ export default {
         icon: 'icon-puzzle',
         children: [
           {
+            name: 'Jurnal Umum',
+            url: '/laporan/jurnalumum',
+            icon: 'icon-pie-chart',
+          },
+          {
             name: 'Buku Besar',
-            url: '/peralatan/inventaris',
-            icon: 'icon-puzzle',
+            url: '/laporan/bukubesar',
+            icon: 'icon-pie-chart',
           },
           {
             name: 'Neraca',
-            url: '/peralatan/pemeliharaan',
-            icon: 'icon-puzzle',
+            url: '/laporan/neraca',
+            icon: 'icon-pie-chart',
           },
         ],
       },
@@ -69,21 +70,21 @@ export default {
         children: [
           {
             name: 'Kategori Aset',
-            url: '/peralatan/inventaris',
-            icon: 'icon-puzzle',
+            url: '#',
+            icon: 'icon-pie-chart',
           },
           {
             name: 'Aset Tetap',
-            url: '/peralatan/pemeliharaan',
-            icon: 'icon-puzzle',
+            url: '#',
+            icon: 'icon-pie-chart',
           },
         ],
       },
-      {
-        name: 'Pengaturan',
-        url: '/order/listOrder',
-        icon: 'icon-pie-chart',
-      },
+      // {
+      //   name: 'Pengaturan',
+      //   url: '/order/listOrder',
+      //   icon: 'icon-pie-chart',
+      // },
 
     {
       title: true,
@@ -95,7 +96,7 @@ export default {
     },
     {
       name: 'Data Karyawan',
-      url: '/order/listOrder',
+      url: '/karyawan/datakaryawan',
       icon: 'icon-pie-chart',
     },
 

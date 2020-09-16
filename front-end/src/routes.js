@@ -52,8 +52,16 @@ const ListVendor = React.lazy(() => import('./views/Logistik/Vendor/ListVendor')
 const OfferRoom = React.lazy(() => import('./views/Logistik/Offer/OfferRoom'));
 const DashboardLogistik = React.lazy(() => import('./views/Logistik/DashboardLogistik/DashboardLogistik'));
 
-const Penjualan = React.lazy(() => import('./views/Finance/Transaksi/Penjualan'));
-const BuatPenjualan = React.lazy(() => import('./views/Finance/Transaksi/BuatPenjualan'));
+const Pengeluaran = React.lazy(() => import('./views/Finance/Transaksi/Pengeluaran'));
+const BuatPengeluaran = React.lazy(() => import('./views/Finance/Transaksi/BuatPengeluaran'));
+const Pemasukan = React.lazy(() => import('./views/Finance/Transaksi/Pemasukan'));
+const BuatPemasukan = React.lazy(() => import('./views/Finance/Transaksi/BuatPemasukan'));
+const JurnalUmum = React.lazy(() => import('./views/Finance/Laporan/JurnalUmum'));
+const BukuBesar = React.lazy(() => import('./views/Finance/Laporan/BukuBesar'));
+const Neraca = React.lazy(() => import('./views/Finance/Laporan/Neraca'));
+
+const DataKaryawan = React.lazy(() => import('./views/HumanResource/Karyawan/DataKaryawan'));
+const TambahKaryawan = React.lazy(() => import('./views/HumanResource/Karyawan/TambahKaryawan'));
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -112,13 +120,21 @@ const routes = [
   { path: '/order/pengambilanBarang', exact: true, name: 'Pengambilan Barang Order', component: PengambilanBarang },
   { path: '/vendor/listVendor', exact: true, name: 'List Vendor', component: ListVendor },
   { path: '/offer/offerRoom', exact: true, name: 'Offer Room', component: OfferRoom },
-<<<<<<< HEAD
 
-  { path: '/transaksi/penjualan', exact: true, name: 'Transaksi', component: Penjualan },
-  { path: '/transaksi/buatPenjualan', exact: true, name: 'Buat Penjualan', component: BuatPenjualan },
-=======
+
+  { path: '/transaksi/pengeluaran', exact: true, name: 'Transaksi', component: Pengeluaran },
+  { path: '/transaksi/buatPengeluaran', exact: true, name: 'Tambah Pengeluaran', component: BuatPengeluaran },
+  { path: '/transaksi/pemasukan', exact: true, name: 'Transaksi', component: Pemasukan },
+  { path: '/transaksi/buatPemasukan', exact: true, name: 'Tambah Pemasukan', component: BuatPemasukan },
+  { path: '/laporan/jurnalumum', exact: true, name: 'Jurnal Umum', component: JurnalUmum },
+  { path: '/laporan/bukubesar', exact: true, name: 'Buku Besar', component: BukuBesar },
+  { path: '/laporan/neraca', exact: true, name: 'Neraca', component: Neraca },
+
+  { path: '/karyawan/datakaryawan', exact: true, name: 'Data Karyawan', component: DataKaryawan },
+  { path: '/karyawan/tambahkaryawan', exact: true, name: 'Tambah Karyawan', component: TambahKaryawan },
+
   { path: '/dashboardLogistik/dashboardLogistik', exact: true, name: 'Dashboard', component: DashboardLogistik },
->>>>>>> c4fa3910e9d3a3aee8f90e475cf8400c4ea3df71
+
 ];
 
 export default routes;
