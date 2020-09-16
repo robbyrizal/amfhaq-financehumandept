@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/amfhaq-financehumandept/precache-manifest.d4f09588824604fb51eff52c1d6c53f0.js"
+  "/amfhaq-financehumandept/precache-manifest.f361ca9548afc0ceae66831c62359fec.js"
 );
 
 self.addEventListener('message', (event) => {
