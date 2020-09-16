@@ -60,12 +60,12 @@ export default {
         children: [
           {
             name: 'Kategori Aset',
-            url: '#',
+            url: '/',
             icon: 'icon-pie-chart',
           },
           {
             name: 'Aset Tetap',
-            url: '#',
+            url: '/',
             icon: 'icon-pie-chart',
           },
         ],
