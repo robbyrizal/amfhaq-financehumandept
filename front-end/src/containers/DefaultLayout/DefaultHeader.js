@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {  AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
 import sygnet from '../../assets/img/brand/sygnet.svg';
 import amfhaq from '../../assets/img/brand/amfhaq.PNG';
+import admin from '../../assets/img/avatars/6.jpg';
 
 const propTypes = {
   children: PropTypes.node,
@@ -34,7 +35,7 @@ class DefaultHeader extends Component {
           </NavItem>
           <UncontrolledDropdown nav direction="down">
             <DropdownToggle nav>
-              <img src={'../../assets/img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+              <img src={admin} className="img-avatar" alt="admin@bootstrapmaster.com" />
             </DropdownToggle>
             <DropdownMenu right>
               <DropdownItem header tag="div" className="text-center"><strong>Account</strong></DropdownItem>
