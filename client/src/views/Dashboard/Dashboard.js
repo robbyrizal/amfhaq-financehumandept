@@ -1,10 +1,11 @@
-import React, { Component, lazy, Suspense } from 'react';
+import React, { Component} from 'react';
 import { Bar, Line } from 'react-chartjs-2';
 import {
   ButtonDropdown,
   ButtonGroup,
   Card,
   CardBody,
+  CardHeader,
   Col,
   Dropdown,
   DropdownItem,
@@ -16,7 +17,6 @@ import {
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { getStyle } from '@coreui/coreui/dist/js/coreui-utilities'
 
-const Widget03 = lazy(() => import('../../views/Widgets/Widget03'));
 const brandPrimary = getStyle('--primary')
 const brandInfo = getStyle('--info')
 
@@ -181,116 +181,91 @@ const cardChartOpts3 = {
   },
 };
 
-// Card Chart 4
+// Card Chart 4 [Pemasukan dan Pengeluaran]
 const cardChartData4 = {
-  labels: ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agt',
+            'Sep', 'Okt', 'Nov', 'Des'],
   datasets: [
     {
-      label: 'My First dataset',
-      backgroundColor: 'rgba(255,255,255,.3)',
+      label: 'Pemasukan',
+      backgroundColor: 'rgb(78,129,190)',
       borderColor: 'transparent',
-      data: [78, 81, 80, 45, 34, 12, 40, 75, 34, 89, 32, 68, 54, 72, 18, 98],
+      data: [78, 81, 80, 45, 34, 12, 40, 75, 34, 89, 32, 68],
+    },
+    {
+      label: 'Pengeluaran',
+      backgroundColor: 'rgb(192,77,83)',
+      borderColor: 'transparent',
+      data: [72, 88, 89, 41, 39, 17, 49, 70, 39, 81, 38, 62],
     },
   ],
 };
 
 const cardChartOpts4 = {
-  tooltips: {
-    enabled: false,
-    custom: CustomTooltips
-  },
-  maintainAspectRatio: false,
-  legend: {
-    display: false,
-  },
-  scales: {
-    xAxes: [
-      {
-        display: false,
-        barPercentage: 0.6,
-      }],
-    yAxes: [
-      {
-        display: false,
-      }],
-  },
-};
-
-// Social Box Chart
-const socialBoxData = [
-  { data: [65, 59, 84, 84, 51, 55, 40], label: 'facebook' },
-  { data: [1, 13, 9, 17, 34, 41, 38], label: 'twitter' },
-  { data: [78, 81, 80, 45, 34, 12, 40], label: 'linkedin' },
-  { data: [35, 23, 56, 22, 97, 23, 64], label: 'google' },
-];
-
-const makeSocialBoxData = (dataSetNo) => {
-  const dataset = socialBoxData[dataSetNo];
-  const data = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    datasets: [
-      {
-        backgroundColor: 'rgba(255,255,255,.1)',
-        borderColor: 'rgba(255,255,255,.55)',
-        pointHoverBackgroundColor: '#fff',
-        borderWidth: 2,
-        data: dataset.data,
-        label: dataset.label,
-      },
-    ],
-  };
-  return () => data;
-};
-
-const socialChartOpts = {
-  tooltips: {
-    enabled: false,
-    custom: CustomTooltips
-  },
   responsive: true,
-  maintainAspectRatio: false,
+  legend: {
+    display: false,
+  },
+   scales: {
+      xAxes: [{
+         ticks: {
+            fontColor: "black",
+         }
+      }],
+      yAxes: [{
+         ticks: {
+            fontColor: "black",
+         }
+      }]
+   }
+};
+
+// Card Chart - Grafik Laba Rugi
+const labarugiChart = {
+  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agt',
+            'Sep', 'Okt', 'Nov', 'Des'],
+  datasets: [
+    {
+      label: 'Laba',
+      fill: false,
+      lineTension: 0, 
+      borderColor: "#3e95cd",
+      data: [6, -7, -9, 4, -5, -5, -9, 5, -5, 8, -6, 6],
+    },
+  ],
+};
+
+const labarugiOpt = {
+  responsive: true,
   legend: {
     display: false,
   },
   scales: {
     xAxes: [
       {
-        display: false,
+        ticks: {
+          fontColor: "black",
+        },
+
       }],
     yAxes: [
       {
-        display: false,
+        ticks: {
+          fontColor: "black",
+          min: Math.min.apply(Math, labarugiChart.datasets[0].data) - 5,
+          max: Math.max.apply(Math, labarugiChart.datasets[0].data) + 5,
+        },
       }],
   },
   elements: {
     point: {
-      radius: 0,
+      radius: 4,
       hitRadius: 10,
       hoverRadius: 4,
-      hoverBorderWidth: 3,
+      backgroundColor: "#3e95cd",
     },
   },
-};
-
-//Random Numbers
-function random(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
 }
-
-var elements = 27;
-var data1 = [];
-var data2 = [];
-var data3 = [];
-
-for (var i = 0; i <= elements; i++) {
-  data1.push(random(50, 200));
-  data2.push(random(80, 100));
-  data3.push(65);
-}
-
-
-
-
 
 class Dashboard extends Component {
   constructor(props) {
@@ -324,7 +299,7 @@ class Dashboard extends Component {
     return (
       <div className="animated fadeIn">
         <Row>
-          <Col xs="12" sm="6" lg="3">
+          <Col xs="12" sm="6" lg="4">
             <Card className="text-white bg-info">
               <CardBody className="pb-0">
                 <ButtonGroup className="float-right">
@@ -340,8 +315,8 @@ class Dashboard extends Component {
                     </DropdownMenu>
                   </ButtonDropdown>
                 </ButtonGroup>
-                <div className="text-value">9.823</div>
-                <div>Members online</div>
+                <div className="text-value">5</div>
+                <div>Transaksi Pemasukan Baru</div>
               </CardBody>
               <div className="chart-wrapper mx-3" style={{ height: '70px' }}>
                 <Line data={cardChartData2} options={cardChartOpts2} height={70} />
@@ -349,7 +324,7 @@ class Dashboard extends Component {
             </Card>
           </Col>
 
-          <Col xs="12" sm="6" lg="3">
+          <Col xs="12" sm="6" lg="4">
             <Card className="text-white bg-primary">
               <CardBody className="pb-0">
                 <ButtonGroup className="float-right">
@@ -364,8 +339,8 @@ class Dashboard extends Component {
                     </DropdownMenu>
                   </Dropdown>
                 </ButtonGroup>
-                <div className="text-value">9.823</div>
-                <div>Members online</div>
+                <div className="text-value">3</div>
+                <div>Transaksi Pengeluaran Baru</div>
               </CardBody>
               <div className="chart-wrapper mx-3" style={{ height: '70px' }}>
                 <Line data={cardChartData1} options={cardChartOpts1} height={70} />
@@ -373,7 +348,7 @@ class Dashboard extends Component {
             </Card>
           </Col>
 
-          <Col xs="12" sm="6" lg="3">
+          <Col xs="12" sm="6" lg="4">
             <Card className="text-white bg-warning">
               <CardBody className="pb-0">
                 <ButtonGroup className="float-right">
@@ -388,8 +363,8 @@ class Dashboard extends Component {
                     </DropdownMenu>
                   </Dropdown>
                 </ButtonGroup>
-                <div className="text-value">9.823</div>
-                <div>Members online</div>
+                <div className="text-value">5</div>
+                <div>Tagihan Baru</div>
               </CardBody>
               <div className="chart-wrapper" style={{ height: '70px' }}>
                 <Line data={cardChartData3} options={cardChartOpts3} height={70} />
@@ -397,75 +372,41 @@ class Dashboard extends Component {
             </Card>
           </Col>
 
-          <Col xs="12" sm="6" lg="3">
-            <Card className="text-white bg-danger">
-              <CardBody className="pb-0">
-                <ButtonGroup className="float-right">
-                  <ButtonDropdown id='card4' isOpen={this.state.card4} toggle={() => { this.setState({ card4: !this.state.card4 }); }}>
-                    <DropdownToggle caret className="p-0" color="transparent">
-                      <i className="icon-settings"></i>
-                    </DropdownToggle>
-                    <DropdownMenu right>
-                      <DropdownItem>Action</DropdownItem>
-                      <DropdownItem>Another action</DropdownItem>
-                      <DropdownItem>Something else here</DropdownItem>
-                    </DropdownMenu>
-                  </ButtonDropdown>
-                </ButtonGroup>
-                <div className="text-value">9.823</div>
-                <div>Members online</div>
-              </CardBody>
-              <div className="chart-wrapper mx-3" style={{ height: '70px' }}>
-                <Bar data={cardChartData4} options={cardChartOpts4} height={70} />
-              </div>
-            </Card>
-          </Col>
+
         </Row>
-        
+
 
         <Row>
-          <Col xs="6" sm="6" lg="3">
-            <Suspense fallback={this.loading()}>
-              <Widget03 dataBox={() => ({ variant: 'facebook', friends: '89k', feeds: '459' })} >
-                <div className="chart-wrapper">
-                  <Line data={makeSocialBoxData(0)} options={socialChartOpts} height={90} />
-                </div>
-              </Widget03>
-            </Suspense>
+          <Col xs="12" sm="12" lg="6">
+          <Card>
+            <CardHeader>
+
+                <i className="fa fa-align-justify"></i> Grafik Laba Rugi
+
+            </CardHeader>
+            <div className="chart-wrapper mx-3" style={{ height: '240px' }}>
+              <Line data={labarugiChart} options={labarugiOpt} />
+            </div>
+            </Card>
+          </Col>
+          <Col xs="12" sm="12" lg="6">
+          <Card>
+            <CardHeader>
+
+                <i className="fa fa-align-justify"></i> Grafik Pemasukan dan Pengeluaran
+
+            </CardHeader>
+
+            <div className="chart-wrapper mx-3" style={{ height: '240px' }}>
+              <Bar data={cardChartData4} options={cardChartOpts4} />
+            </div>
+            </Card>
           </Col>
 
-          <Col xs="6" sm="6" lg="3">
-            <Suspense fallback={this.loading()}>
-              <Widget03 dataBox={() => ({ variant: 'twitter', followers: '973k', tweets: '1.792' })} >
-                <div className="chart-wrapper">
-                  <Line data={makeSocialBoxData(1)} options={socialChartOpts} height={90} />
-                </div>
-              </Widget03>
-            </Suspense>
-          </Col>
 
-          <Col xs="6" sm="6" lg="3">
-            <Suspense fallback={this.loading()}>
-              <Widget03 dataBox={() => ({ variant: 'linkedin', contacts: '500+', feeds: '292' })} >
-                <div className="chart-wrapper">
-                  <Line data={makeSocialBoxData(2)} options={socialChartOpts} height={90} />
-                </div>
-              </Widget03>
-            </Suspense>
-          </Col>
-
-          <Col xs="6" sm="6" lg="3">
-            <Suspense fallback={this.loading()}>
-              <Widget03 dataBox={() => ({ variant: 'google-plus', followers: '894', circles: '92' })} >
-                <div className="chart-wrapper">
-                  <Line data={makeSocialBoxData(3)} options={socialChartOpts} height={90} />
-                </div>
-              </Widget03>
-            </Suspense>
-          </Col>
         </Row>
 
-       
+
       </div>
     );
   }

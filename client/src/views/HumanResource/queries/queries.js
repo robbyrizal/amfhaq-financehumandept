@@ -12,6 +12,7 @@ const getKaryawansQuery = gql`
 		no_kontak
 		email
 		jabatan
+		id
 	}
 }
 `
