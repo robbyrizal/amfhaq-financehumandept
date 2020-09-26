@@ -3,20 +3,18 @@ const { graphqlHTTP } = require('express-graphql');
 const schema = require('./schema');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const path = require('path');
-const bodyParser = require('body-parser');
+const path = require('path'); 
 
 const app = express();
 
 app.use(cors());
-app.use(bodyParser.json());
 
 app.use('/graphql', graphqlHTTP({
 	schema,
 	graphiql: true
 }));
 
-mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0-ghaim.mongodb.net/db_skripsi?retryWrites=true&w=majority`,{useNewUrlParser: true , useUnifiedTopology: true });
+mongoose.connect(`mongodb+srv://admin:admin@cluster0-ghaim.mongodb.net/db_skripsi?retryWrites=true&w=majority`,{useNewUrlParser: true , useUnifiedTopology: true });
 mongoose.connection.once('open', () => {
 	console.log('connected to database');
 })

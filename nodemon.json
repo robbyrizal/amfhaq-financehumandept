@@ -1,6 +1,0 @@
-{
-  "env" : {
-    "MONGO_USER": "admin",
-    "MONGO_PASS": "admin"
-  }
-}
