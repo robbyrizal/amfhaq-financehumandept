@@ -36,7 +36,7 @@ const Widgets = React.lazy(() => import('./views/Widgets/Widgets'));
 const Users = React.lazy(() => import('./views/Users/Users'));
 const User = React.lazy(() => import('./views/Users/User'));
 
- 
+
 const Pengeluaran = React.lazy(() => import('./views/Finance/Transaksi/Pengeluaran'));
 const BuatPengeluaran = React.lazy(() => import('./views/Finance/Transaksi/BuatPengeluaran'));
 const Pemasukan = React.lazy(() => import('./views/Finance/Transaksi/Pemasukan'));
@@ -45,8 +45,11 @@ const JurnalUmum = React.lazy(() => import('./views/Finance/Laporan/JurnalUmum')
 const BukuBesar = React.lazy(() => import('./views/Finance/Laporan/BukuBesar'));
 const Neraca = React.lazy(() => import('./views/Finance/Laporan/Neraca'));
 
+const KlienTagihan = React.lazy(() => import('./views/Finance/DataMaster/DataKlienTagihan'));
+const AkunDebitKredit = React.lazy(() => import('./views/Finance/DataMaster/AkunDebitKredit'));
+
 const DataKaryawan = React.lazy(() => import('./views/HumanResource/Karyawan/DataKaryawan'));
-const TambahKaryawan = React.lazy(() => import('./views/HumanResource/Karyawan/TambahKaryawan'));
+const EditDataKaryawan = React.lazy(() => import('./views/HumanResource/Karyawan/EditDataKaryawan'));
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -100,8 +103,11 @@ const routes = [
   { path: '/laporan/bukubesar', exact: true, name: 'Buku Besar', component: BukuBesar },
   { path: '/laporan/neraca', exact: true, name: 'Neraca', component: Neraca },
 
+  { path: '/datamaster/klientagihan', exact: true, name: 'Klien Tagihan', component: KlienTagihan },
+  { path: '/datamaster/akundebitkredit', exact: true, name: 'Akun Debit Kredit', component: AkunDebitKredit },
+
   { path: '/karyawan/datakaryawan', exact: true, name: 'Data Karyawan', component: DataKaryawan },
-  { path: '/karyawan/tambahkaryawan', exact: true, name: 'Tambah Karyawan', component: TambahKaryawan },
+  { path: '/karyawan/editDataKaryawan/:id', exact: true, name: 'Edit Karyawan', component: EditDataKaryawan },
 
 
 ];
