@@ -34,8 +34,8 @@ class BuatPengeluaran extends Component {
               <CardBody>
 
               <FormGroup>
-                <Label htmlFor="name">Klien</Label>
-                <Input type="select" name="klien" id="klien">
+                <Label htmlFor="name">Vendor</Label>
+                <Input type="select" id="vendor">
                   <option value="">...</option>
                 </Input>
               </FormGroup>
@@ -45,10 +45,10 @@ class BuatPengeluaran extends Component {
                 </Input>
               </FormGroup>
               <FormGroup>
-                <Label htmlFor="name">Jumlah Dana</Label>
+                <Label htmlFor="name">Jumlah Biaya</Label>
               <InputGroup>
                 <InputGroupAddon addonType="prepend">Rp.</InputGroupAddon>
-                <Input type="number" id="jumlahdana" placeholder="Masukkan Jumlah Dana" required />
+                <Input type="number" id="jumlahbiaya" placeholder="Masukkan Jumlah Biaya" required />
                 <InputGroupAddon addonType="append">.00</InputGroupAddon>
               </InputGroup>
               </FormGroup>
@@ -63,6 +63,10 @@ class BuatPengeluaran extends Component {
               <FormGroup>
                 <Label htmlFor="name">Tanggal Transaksi</Label>
                 <Input type="date" id="tgltrans" placeholder="Masukkan Tanggal Transaksi" required />
+              </FormGroup>
+              <FormGroup>
+                <Label htmlFor="name">Jatuh Tempo</Label>
+                <Input type="date" id="jatuh_tempo" placeholder="Masukkan Tanggal Jatuh Tempo" required />
               </FormGroup>
               <FormGroup>
                 <Label htmlFor="name">Akun Debet</Label>

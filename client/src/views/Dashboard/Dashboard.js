@@ -17,8 +17,8 @@ import {
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { getStyle } from '@coreui/coreui/dist/js/coreui-utilities'
 
-const brandPrimary = getStyle('--primary')
-const brandInfo = getStyle('--info')
+const brandDanger = getStyle('--danger')
+const brandSuccess = getStyle('--success')
 
 
 // Card Chart 1
@@ -27,7 +27,7 @@ const cardChartData1 = {
   datasets: [
     {
       label: 'My First dataset',
-      backgroundColor: brandPrimary,
+      backgroundColor: brandDanger,
       borderColor: 'rgba(255,255,255,.55)',
       data: [65, 59, 84, 84, 51, 55, 40],
     },
@@ -85,7 +85,7 @@ const cardChartData2 = {
   datasets: [
     {
       label: 'My First dataset',
-      backgroundColor: brandInfo,
+      backgroundColor: brandSuccess,
       borderColor: 'rgba(255,255,255,.55)',
       data: [1, 18, 9, 17, 34, 22, 11],
     },
@@ -136,50 +136,7 @@ const cardChartOpts2 = {
     },
   },
 };
-
-// Card Chart 3
-const cardChartData3 = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-  datasets: [
-    {
-      label: 'My First dataset',
-      backgroundColor: 'rgba(255,255,255,.2)',
-      borderColor: 'rgba(255,255,255,.55)',
-      data: [78, 81, 80, 45, 34, 12, 40],
-    },
-  ],
-};
-
-const cardChartOpts3 = {
-  tooltips: {
-    enabled: false,
-    custom: CustomTooltips
-  },
-  maintainAspectRatio: false,
-  legend: {
-    display: false,
-  },
-  scales: {
-    xAxes: [
-      {
-        display: false,
-      }],
-    yAxes: [
-      {
-        display: false,
-      }],
-  },
-  elements: {
-    line: {
-      borderWidth: 2,
-    },
-    point: {
-      radius: 0,
-      hitRadius: 10,
-      hoverRadius: 4,
-    },
-  },
-};
+ 
 
 // Card Chart 4 [Pemasukan dan Pengeluaran]
 const cardChartData4 = {
@@ -228,7 +185,7 @@ const labarugiChart = {
     {
       label: 'Laba',
       fill: false,
-      lineTension: 0, 
+      lineTension: 0,
       borderColor: "#3e95cd",
       data: [6, -7, -9, 4, -5, -5, -9, 5, -5, 8, -6, 6],
     },
@@ -299,8 +256,8 @@ class Dashboard extends Component {
     return (
       <div className="animated fadeIn">
         <Row>
-          <Col xs="12" sm="6" lg="4">
-            <Card className="text-white bg-info">
+          <Col xs="12" sm="6" lg="6">
+            <Card className="text-white bg-success">
               <CardBody className="pb-0">
                 <ButtonGroup className="float-right">
                   <ButtonDropdown id='card1' isOpen={this.state.card1} toggle={() => { this.setState({ card1: !this.state.card1 }); }}>
@@ -324,8 +281,8 @@ class Dashboard extends Component {
             </Card>
           </Col>
 
-          <Col xs="12" sm="6" lg="4">
-            <Card className="text-white bg-primary">
+          <Col xs="12" sm="6" lg="6">
+            <Card className="text-white bg-danger">
               <CardBody className="pb-0">
                 <ButtonGroup className="float-right">
                   <Dropdown id='card2' isOpen={this.state.card2} toggle={() => { this.setState({ card2: !this.state.card2 }); }}>
@@ -347,31 +304,6 @@ class Dashboard extends Component {
               </div>
             </Card>
           </Col>
-
-          <Col xs="12" sm="6" lg="4">
-            <Card className="text-white bg-warning">
-              <CardBody className="pb-0">
-                <ButtonGroup className="float-right">
-                  <Dropdown id='card3' isOpen={this.state.card3} toggle={() => { this.setState({ card3: !this.state.card3 }); }}>
-                    <DropdownToggle caret className="p-0" color="transparent">
-                      <i className="icon-settings"></i>
-                    </DropdownToggle>
-                    <DropdownMenu right>
-                      <DropdownItem>Action</DropdownItem>
-                      <DropdownItem>Another action</DropdownItem>
-                      <DropdownItem>Something else here</DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
-                </ButtonGroup>
-                <div className="text-value">5</div>
-                <div>Tagihan Baru</div>
-              </CardBody>
-              <div className="chart-wrapper" style={{ height: '70px' }}>
-                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
-              </div>
-            </Card>
-          </Col>
-
 
         </Row>
 
