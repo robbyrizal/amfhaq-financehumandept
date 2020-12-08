@@ -6,12 +6,12 @@ const KaryawanSchema = new Schema({
 	tanggal_lahir: String,
 	jenis_kelamin: String,
 	agama: String,
-	tempat_lahir: String,
-	alamat: String,
+	kota_asal: String,
+	domisili: String,
 	no_kontak: String,
 	email: String,
 	jabatan: String,
-	divisi_id: String
+
 });
 
-module.exports = mongoose.model('Karyawan', KaryawanSchema);
+module.exports = mongoose.model('HumanResource', KaryawanSchema);

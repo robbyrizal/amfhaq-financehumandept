@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import {graphql} from 'react-apollo';
 import * as compose from 'lodash.flowright';
-import {getKaryawansQuery, addKaryawanMutation, hapusKaryawanMutation,getDivisisQuery} from '../queries/queries';
+import {getKaryawansQuery, addKaryawanMutation, hapusKaryawanMutation} from '../queries/queries';
 import {
   Card,
   CardBody,
@@ -29,14 +29,13 @@ class DataKaryawan extends Component {
     this.state = {
       nama: '',
     	tanggal_lahir: '',
-      jenis_kelamin: '',
-      agama: '',
-    	tempat_lahir: '',
-    	alamat: '',
+      jenis_kelamin: 'Pria',
+      agama: 'Islam',
+    	kota_asal: '',
+    	domisili: '',
     	no_kontak: '',
     	email: '',
-      jabatan: '',
-      divisi_id: '',
+      jabatan: 'HRD Staff',
       modalIsOpen: false,
     };
   }
@@ -54,14 +53,13 @@ class DataKaryawan extends Component {
           variables:{
             nama: this.state.nama,
         		tanggal_lahir: this.state.tanggal_lahir,
-        		tempat_lahir: this.state.tempat_lahir,
         		jenis_kelamin: this.state.jenis_kelamin,
         		agama: this.state.agama,
-        		alamat: this.state.alamat,
+        		kota_asal: this.state.kota_asal,
+        		domisili: this.state.domisili,
         		no_kontak: this.state.no_kontak,
         		email: this.state.email,
-            jabatan: this.state.jabatan,
-            divisi_id: this.state.divisi_id,
+        		jabatan: this.state.jabatan
           },
           refetchQueries:[{query:getKaryawansQuery}]
         });
@@ -76,19 +74,6 @@ class DataKaryawan extends Component {
         });
       }
 
-  displayDivisi(){
-    var data = this.props.getDivisisQuery;
-    if(data.loading){
-      return (<div>Loading Data Divisi...</div>);
-    } else {
-      return data.divisis.map(divisi => {
-        return(
-          <option key={divisi.id} value={divisi.id}> {divisi.nama} </option>
-        );
-      });
-    }
-  }
-  
   displayKaryawan(){
     var data = this.props.getKaryawansQuery;
     var no = 0;
@@ -98,20 +83,19 @@ class DataKaryawan extends Component {
       return data.karyawans.map(karyawan => {
         no++;
         return(
-          <tr key={karyawan.id}>
-            <td>{no}</td>
-            <td>{karyawan.nama}</td>
-            <td>{karyawan.tanggal_lahir}</td>
-            <td>{karyawan.tempat_lahir}</td>
-            <td>{karyawan.jenis_kelamin}</td>
-            <td>{karyawan.agama}</td>
-            <td>{karyawan.alamat}</td>
-            <td>{karyawan.no_kontak}</td>
-            <td>{karyawan.email}</td>
-            <td>{karyawan.jabatan}</td>
-            <td>{karyawan.divisi.nama}</td>
-            <td>
-              <Link to={`/karyawan/editDataKaryawan/${karyawan.id}`}>
+          <tr>
+            <td key={karyawan.id}>{no}</td>
+            <td key={karyawan.id}>{karyawan.nama}</td>
+            <td key={karyawan.id}>{karyawan.tanggal_lahir}</td>
+            <td key={karyawan.id}>{karyawan.jenis_kelamin}</td>
+            <td key={karyawan.id}>{karyawan.agama}</td>
+            <td key={karyawan.id}>{karyawan.kota_asal}</td>
+            <td key={karyawan.id}>{karyawan.domisili}</td>
+            <td key={karyawan.id}>{karyawan.no_kontak}</td>
+            <td key={karyawan.id}>{karyawan.email}</td>
+            <td key={karyawan.id}>{karyawan.jabatan}</td>
+            <td key={karyawan.id}>
+              <Link to={`/karyawan/editKaryawan/${karyawan.id}`}>
               <Button color="success" size="sm">
                 <i className="fa fa-pencil"></i>
               </Button>
@@ -153,14 +137,13 @@ class DataKaryawan extends Component {
                     <th>No</th>
                     <th>Nama</th>
                     <th>Tanggal Lahir</th>
-                    <th>Tempat Lahir</th>
                     <th>Jenis Kelamin</th>
                     <th>Agama</th>
-                    <th>Alamat</th>
+                    <th>Kota Asal</th>
+                    <th>Domisili Sekarang</th>
                     <th>No Kontak</th>
                     <th>Email</th>
                     <th>Jabatan</th>
-                    <th>Divisi</th>
                     <th colspan="2">Aksi</th>
                   </tr>
                   </thead>
@@ -198,13 +181,8 @@ class DataKaryawan extends Component {
               <Input type="date" id="tanggal_lahir" onChange={(e) =>this.setState({tanggal_lahir:e.target.value})} required />
             </FormGroup>
             <FormGroup>
-              <Label htmlFor="name">Tempat Lahir</Label>
-              <Input type="text" id="tempat_lahir" placeholder="Tempat Lahir"  onChange={(e) =>this.setState({tempat_lahir:e.target.value})} required />
-            </FormGroup>
-            <FormGroup>
               <Label htmlFor="name">Jenis Kelamin</Label>
               <Input type="select" id="jenis_kelamin" onChange={(e) =>this.setState({jenis_kelamin:e.target.value})} required >
-                <option value="">Pilih Jenis Kelamin</option>
                 <option value="Pria">Pria</option>
                 <option value="Wanita">Wanita</option>
               </Input>
@@ -212,7 +190,6 @@ class DataKaryawan extends Component {
             <FormGroup>
               <Label htmlFor="name">Agama</Label>
               <Input type="select" id="agama" onChange={(e) =>this.setState({agama:e.target.value})} required >
-                <option value="">Pilih Agama</option>
                 <option value="Islam">Islam</option>
                 <option value="Budha">Budha</option>
                 <option value="Hindu">Hindu</option>
@@ -220,10 +197,13 @@ class DataKaryawan extends Component {
                 <option value="Kristen">Kristen</option>
               </Input>
             </FormGroup>
-            
             <FormGroup>
-              <Label htmlFor="name">Alamat</Label>
-              <Input type="text" id="alamat" placeholder="Alamat" onChange={(e) =>this.setState({alamat:e.target.value})} required />
+              <Label htmlFor="name">Kota Asal</Label>
+              <Input type="text" id="kota_asal" placeholder="Kota Asal"  onChange={(e) =>this.setState({kota_asal:e.target.value})} required />
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor="name">Domisili Sekarang</Label>
+              <Input type="text" id="domisili" placeholder="Domisili Sekarang" onChange={(e) =>this.setState({domisili:e.target.value})} required />
             </FormGroup>
             <FormGroup>
               <Label htmlFor="name">No Kontak</Label>
@@ -236,20 +216,10 @@ class DataKaryawan extends Component {
             <FormGroup>
               <Label htmlFor="name">Jabatan</Label>
               <Input type="select" id="jabatan" onChange={(e) =>this.setState({jabatan:e.target.value})} required >
-                <option value="">Pilih Jabatan</option>
-                <option value="Manajer">Manajer</option>
-                <option value="Staff">Staff</option>
-                <option value="Teknisi">Teknisi</option>
-                <option value="Akuntan">Akuntan</option>
+                <option value="HRD Staff">HRD Staff</option>
+                <option value="Akuntan Staff">Akuntan Staff</option>
                 <option value="Karyawan Tetap">Karyawan Tetap</option>
                 <option value="Karyawan Kontrak">Karyawan Kontrak</option>
-              </Input>
-            </FormGroup>
-            <FormGroup>
-              <Label htmlFor="name">Divisi</Label>
-              <Input type="select" id="divisi" onChange={(e) =>this.setState({divisi_id:e.target.value})} required >
-              <option value="">Pilih Divisi</option>
-              {this.displayDivisi()}
               </Input>
             </FormGroup>
               <Button type="submit" color="primary">Submit</Button>
@@ -268,6 +238,5 @@ class DataKaryawan extends Component {
 export default compose(
   graphql(getKaryawansQuery, {name:"getKaryawansQuery"}),
   graphql(addKaryawanMutation, {name:"addKaryawanMutation"}),
-  graphql(hapusKaryawanMutation, {name:"hapusKaryawanMutation"}),
-  graphql(getDivisisQuery, {name:"getDivisisQuery"}),
+  graphql(hapusKaryawanMutation, {name:"hapusKaryawanMutation"})
 )(DataKaryawan);

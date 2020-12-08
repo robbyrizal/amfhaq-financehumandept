@@ -14,7 +14,7 @@ app.use('/graphql', graphqlHTTP({
 	graphiql: true
 }));
 
-mongoose.connect(`mongodb+srv://admin:admin@cluster0-ghaim.mongodb.net/db_skripsi?retryWrites=true&w=majority`,{useNewUrlParser: true , useUnifiedTopology: true, useFindAndModify:false  });
+mongoose.connect(`mongodb+srv://admin:admin@cluster0-ghaim.mongodb.net/db_skripsi?retryWrites=true&w=majority`,{useNewUrlParser: true , useUnifiedTopology: true });
 mongoose.connection.once('open', () => {
 	console.log('connected to database');
 })
