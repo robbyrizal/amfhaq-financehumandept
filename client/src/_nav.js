@@ -20,13 +20,13 @@ export default {
       icon: 'icon-puzzle',
       children: [
         {
-          name: 'Pengeluaran',
-          url: '/transaksi/pengeluaran',
+          name: 'Pemasukan',
+          url: '/transaksi/pemasukan',
           icon: 'icon-pie-chart',
         },
         {
-          name: 'Pemasukan',
-          url: '/transaksi/pemasukan',
+          name: 'Pengeluaran',
+          url: '/transaksi/pengeluaran',
           icon: 'icon-pie-chart',
         },
 
@@ -58,14 +58,25 @@ export default {
         url: '/base',
         icon: 'icon-puzzle',
         children: [
+
+          {
+            name: 'Akun Debit Kredit',
+            url: '/datamaster/akundebitkredit',
+            icon: 'icon-pie-chart',
+          },
+          {
+            name: 'Aset Tetap',
+            url: '/',
+            icon: 'icon-pie-chart',
+          },
           {
             name: 'Kategori Aset',
             url: '/',
             icon: 'icon-pie-chart',
           },
           {
-            name: 'Aset Tetap',
-            url: '/',
+            name: 'Klien Tagihan',
+            url: '/datamaster/klientagihan',
             icon: 'icon-pie-chart',
           },
         ],
