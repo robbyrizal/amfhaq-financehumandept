@@ -104,7 +104,7 @@ class EditDataKaryawan extends Component {
     let lastAtPos = emailF.lastIndexOf('@');
     let lastDotPos = emailF.lastIndexOf('.');
 
-    if (!(lastAtPos < lastDotPos && lastAtPos > 0 && emailF.indexOf('@@') == -1 && lastDotPos > 2 && (emailF.length - lastDotPos) > 2)) {
+    if (!(lastAtPos < lastDotPos && lastAtPos > 0 && emailF.indexOf('@@') === -1 && lastDotPos > 2 && (emailF.length - lastDotPos) > 2)) {
       alert("Email is not valid")
     } else {
       this.props.updateKaryawanMutation({
