@@ -37,6 +37,7 @@ class DataKaryawan extends Component {
     	email: '',
       jabatan: '',
       divisi_id: '',
+      gaji: 0,
       modalIsOpen: false,
     };
   }
@@ -61,6 +62,7 @@ class DataKaryawan extends Component {
         		no_kontak: this.state.no_kontak,
         		email: this.state.email,
             jabatan: this.state.jabatan,
+            gaji: parseInt(this.state.gaji),
             divisi_id: this.state.divisi_id,
           },
           refetchQueries:[{query:getKaryawansQuery}]
@@ -93,37 +95,40 @@ class DataKaryawan extends Component {
     var data = this.props.getKaryawansQuery;
     var no = 0;
     if(data.loading){
-      return (<div>Loading Daftar Karyawan...</div>);
-    } else {
+      return
+    } else { // eslint-disable-next-line
       return data.karyawans.map(karyawan => {
-        no++;
-        return(
-          <tr key={karyawan.id}>
-            <td>{no}</td>
-            <td>{karyawan.nama}</td>
-            <td>{karyawan.tanggal_lahir}</td>
-            <td>{karyawan.tempat_lahir}</td>
-            <td>{karyawan.jenis_kelamin}</td>
-            <td>{karyawan.agama}</td>
-            <td>{karyawan.alamat}</td>
-            <td>{karyawan.no_kontak}</td>
-            <td>{karyawan.email}</td>
-            <td>{karyawan.jabatan}</td>
-            <td>{karyawan.divisi.nama}</td>
-            <td>
-              <Link to={`/karyawan/editDataKaryawan/${karyawan.id}`}>
-              <Button color="success" size="sm">
-                <i className="fa fa-pencil"></i>
-              </Button>
-              </Link>
-            </td>
-            <td>
-              <Button onClick={this.onDelete.bind(this, karyawan.id)} color="danger" size="sm">
-                <i className="fa fa-trash"></i>
-              </Button>
-            </td>
-          </tr>
-        );
+        if(karyawan.jabatan !== "Admin"){
+          no++;
+          return(
+            <tr key={karyawan.id}>
+              <td>{no}</td>
+              <td>{karyawan.nama}</td>
+              <td>{karyawan.tanggal_lahir}</td>
+              <td>{karyawan.jenis_kelamin}</td>
+              <td>{karyawan.agama}</td>
+              <td>{karyawan.alamat}</td>
+              <td>{karyawan.no_kontak}</td>
+              <td>{karyawan.email}</td>
+              <td>{karyawan.jabatan}</td>
+              <td>{karyawan.gaji}</td>
+              <td>{karyawan.divisi.nama}</td>
+              <td>
+                <Link to={`/karyawan/editDataKaryawan/${karyawan.id}`}>
+                <Button color="success" size="sm">
+                  <i className="fa fa-pencil"></i>
+                </Button>
+                </Link>
+              </td>
+              <td>
+                <Button onClick={this.onDelete.bind(this, karyawan.id)} color="danger" size="sm">
+                  <i className="fa fa-trash"></i>
+                </Button>
+              </td>
+            </tr>
+          );
+        }
+        
       });
     }
   }
@@ -153,15 +158,15 @@ class DataKaryawan extends Component {
                     <th>No</th>
                     <th>Nama</th>
                     <th>Tanggal Lahir</th>
-                    <th>Tempat Lahir</th>
                     <th>Jenis Kelamin</th>
                     <th>Agama</th>
                     <th>Alamat</th>
                     <th>No Kontak</th>
                     <th>Email</th>
                     <th>Jabatan</th>
+                    <th>Gaji Harian</th>
                     <th>Divisi</th>
-                    <th colspan="2">Aksi</th>
+                    <th colSpan="2">Aksi</th>
                   </tr>
                   </thead>
                   <tbody align="center">
@@ -241,8 +246,9 @@ class DataKaryawan extends Component {
                 <option value="Staff">Staff</option>
                 <option value="Teknisi">Teknisi</option>
                 <option value="Akuntan">Akuntan</option>
-                <option value="Karyawan Tetap">Karyawan Tetap</option>
-                <option value="Karyawan Kontrak">Karyawan Kontrak</option>
+                <option value="Pekerja">Pekerja</option>
+                <option value="Pekerja Ahli">Pekerja Ahli</option>
+                <option value="Asisten Pekerja">Asisten Pekerja</option>
               </Input>
             </FormGroup>
             <FormGroup>
@@ -251,6 +257,10 @@ class DataKaryawan extends Component {
               <option value="">Pilih Divisi</option>
               {this.displayDivisi()}
               </Input>
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor="name">Gaji</Label>
+              <Input type="number" id="gaji" placeholder="Gaji" onChange={(e) =>this.setState({gaji:e.target.value})} required />
             </FormGroup>
               <Button type="submit" color="primary">Submit</Button>
               <Button color="danger" onClick={this.toggleModal.bind(this)}>Batal</Button>

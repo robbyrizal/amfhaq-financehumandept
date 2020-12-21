@@ -2,6 +2,7 @@ import React, { Component, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import * as router from 'react-router-dom';
 import { Container } from 'reactstrap';
+import {Helmet} from "react-helmet";
 
 import {
   AppAside,
@@ -30,12 +31,24 @@ class DefaultLayout extends Component {
 
   signOut(e) {
     e.preventDefault()
-    this.props.history.push('/login')
+    localStorage.removeItem("username");
+    localStorage.removeItem("password");
+    localStorage.removeItem("nama");
+    localStorage.removeItem("jabatan");
+    localStorage.removeItem("alamat");
+    localStorage.removeItem("noHp");
+    localStorage.removeItem("avatar");
+    localStorage.removeItem("divisi");
+    localStorage.removeItem("loggedIn");
+    this.props.history.push('/login');
   }
 
   render() {
     return (
       <div className="app">
+        <Helmet>
+                <title>AMF-HAQ - Finance Accounting dan Human Resource Development</title>
+            </Helmet>
         <AppHeader fixed>
           <Suspense  fallback={this.loading()}>
             <DefaultHeader onLogout={e=>this.signOut(e)}/>

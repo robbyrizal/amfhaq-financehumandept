@@ -1,5 +1,6 @@
 import React, { Component} from 'react';
 import { Bar, Line } from 'react-chartjs-2';
+import { Redirect } from 'react-router-dom';
 import {
   ButtonDropdown,
   ButtonGroup,
@@ -225,16 +226,24 @@ const labarugiOpt = {
 }
 
 class Dashboard extends Component {
-  constructor(props) {
+  constructor(props){
     super(props);
+    const username= localStorage.getItem("username")
+
+    let loggedIn = true 
+      if(username == null){
+        loggedIn = false
+      }
+    this.state = {
+      nama: localStorage.getItem("nama"),
+      loggedIn
+    }
+  
 
     this.toggle = this.toggle.bind(this);
     this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
 
-    this.state = {
-      dropdownOpen: false,
-      radioSelected: 2,
-    };
+    
   }
 
   toggle() {
@@ -252,7 +261,10 @@ class Dashboard extends Component {
   loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
   render() {
-
+    if(this.state.loggedIn === false){
+      
+      return <Redirect to="/login" />
+    }
     return (
       <div className="animated fadeIn">
         <Row>

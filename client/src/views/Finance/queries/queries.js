@@ -74,6 +74,19 @@ const hapusAkunDebitKreditMutation = gql`
 	}
 `
 //----------------------------------------------------------------------------//
+const getPurchaseOrdersQuery = gql`
+{
+	purchaseOrders {
+		kode
+		tanggal
+		tanggal_setuju
+		status
+		total_harga
+		id
+	}
+}
+`
+//----------------------------------------------------------------------------//
 export {
 	getKlienTagihansQuery,
 	getKlienTagihanQuery,
@@ -83,4 +96,5 @@ export {
 	getAkunDebitKreditQuery,
 	addAkunDebitKreditMutation,
 	hapusAkunDebitKreditMutation,
+	getPurchaseOrdersQuery,
 };

@@ -8,7 +8,7 @@ export default {
 
     {
       title: true,
-      name: 'Finance',
+      name: 'Finance Accounting',
       wrapper: {
         element: '',
         attributes: {},
@@ -17,75 +17,60 @@ export default {
     {
       name: 'Transaksi',
       url: '/base',
-      icon: 'icon-puzzle',
+      icon: 'icon-wallet',
       children: [
         {
           name: 'Pemasukan',
           url: '/transaksi/pemasukan',
-          icon: 'icon-pie-chart',
+          icon: 'icon-credit-card',
         },
         {
           name: 'Pengeluaran',
           url: '/transaksi/pengeluaran',
-          icon: 'icon-pie-chart',
+          icon: 'icon-basket',
         },
 
       ],
     },  {
         name: 'Laporan',
         url: '/base',
-        icon: 'icon-puzzle',
+        icon: 'icon-docs',
         children: [
           {
             name: 'Jurnal Umum',
             url: '/laporan/jurnalumum',
-            icon: 'icon-pie-chart',
+            icon: 'icon-doc',
           },
           {
             name: 'Buku Besar',
             url: '/laporan/bukubesar',
-            icon: 'icon-pie-chart',
+            icon: 'icon-doc',
           },
           {
             name: 'Neraca',
             url: '/laporan/neraca',
-            icon: 'icon-pie-chart',
+            icon: 'icon-doc',
           },
         ],
       },
       {
         name: 'Data Master',
         url: '/base',
-        icon: 'icon-puzzle',
+        icon: 'icon-folder-alt',
         children: [
 
           {
             name: 'Akun Debit Kredit',
             url: '/datamaster/akundebitkredit',
-            icon: 'icon-pie-chart',
-          },
-          {
-            name: 'Aset Tetap',
-            url: '/',
-            icon: 'icon-pie-chart',
-          },
-          {
-            name: 'Kategori Aset',
-            url: '/',
-            icon: 'icon-pie-chart',
+            icon: 'icon-briefcase',
           },
           {
             name: 'Klien Tagihan',
             url: '/datamaster/klientagihan',
-            icon: 'icon-pie-chart',
+            icon: 'icon-people',
           },
         ],
       },
-      // {
-      //   name: 'Pengaturan',
-      //   url: '/order/listOrder',
-      //   icon: 'icon-pie-chart',
-      // },
 
     {
       title: true,
@@ -98,7 +83,12 @@ export default {
     {
       name: 'Data Karyawan',
       url: '/karyawan/datakaryawan',
-      icon: 'icon-pie-chart',
+      icon: 'icon-people',
+    },
+    {
+      name: 'Data Akun',
+      url: '/akun/akun',
+      icon: 'icon-user',
     },
 
   ],

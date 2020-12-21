@@ -50,7 +50,11 @@ const AkunDebitKredit = React.lazy(() => import('./views/Finance/DataMaster/Akun
 
 const DataKaryawan = React.lazy(() => import('./views/HumanResource/Karyawan/DataKaryawan'));
 const EditDataKaryawan = React.lazy(() => import('./views/HumanResource/Karyawan/EditDataKaryawan'));
-// https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
+
+const PurchaseOrder = React.lazy(() => import('./views/Finance/Transaksi/PurchaseOrder'));
+
+const Akun = React.lazy(() => import('./views/HumanResource/Akun/Akun'));
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
@@ -99,6 +103,8 @@ const routes = [
   { path: '/transaksi/buatPengeluaran', exact: true, name: 'Tambah Pengeluaran', component: BuatPengeluaran },
   { path: '/transaksi/pemasukan', exact: true, name: 'Transaksi', component: Pemasukan },
   { path: '/transaksi/buatPemasukan', exact: true, name: 'Tambah Pemasukan', component: BuatPemasukan },
+  { path: '/transaksi/listPO', exact: true, name: 'List Purchase Order', component: PurchaseOrder },
+  
   { path: '/laporan/jurnalumum', exact: true, name: 'Jurnal Umum', component: JurnalUmum },
   { path: '/laporan/bukubesar', exact: true, name: 'Buku Besar', component: BukuBesar },
   { path: '/laporan/neraca', exact: true, name: 'Neraca', component: Neraca },
@@ -108,6 +114,8 @@ const routes = [
 
   { path: '/karyawan/datakaryawan', exact: true, name: 'Data Karyawan', component: DataKaryawan },
   { path: '/karyawan/editDataKaryawan/:id', exact: true, name: 'Edit Karyawan', component: EditDataKaryawan },
+  
+  { path: '/akun/akun', exact: true, name: 'Data Akun', component: Akun },
 
 
 ];

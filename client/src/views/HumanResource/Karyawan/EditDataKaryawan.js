@@ -32,6 +32,7 @@ class EditDataKaryawan extends Component {
     	no_kontak: '',
     	email: '',
       jabatan: '',
+      gaji: 0,
       divisi_id: '',
     };
   }
@@ -48,8 +49,13 @@ class EditDataKaryawan extends Component {
     var	emailF= '';
     var jabatanF= '';
     var divisi_idF= '';
+    var gajiF= 0;
     
-
+    if (this.state.gaji === 0){
+      gajiF = karyawan.gaji
+    } else {
+      gajiF = this.state.gaji
+    }
     if (this.state.nama === ''){
       namaF = karyawan.nama
     } else {
@@ -119,6 +125,7 @@ class EditDataKaryawan extends Component {
           no_kontak: no_kontakF,
           email: emailF,
           jabatan: jabatanF,
+          gaji: parseInt(gajiF),
           divisi_id: divisi_idF,
         },
         refetchQueries:[{query:getKaryawansQuery}],
@@ -200,9 +207,14 @@ class EditDataKaryawan extends Component {
           <option value="Staff">Staff</option>
           <option value="Teknisi">Teknisi</option>
           <option value="Akuntan">Akuntan</option>
-          <option value="Karyawan Tetap">Karyawan Tetap</option>
-          <option value="Karyawan Kontrak">Karyawan Kontrak</option>
+          <option value="Pekerja">Pekerja</option>
+          <option value="Pekerja Ahli">Pekerja Ahli</option>
+          <option value="Asisten Pekerja">Asisten Pekerja</option>
         </Input>
+      </FormGroup>
+      <FormGroup>
+        <Label htmlFor="name">Gaji</Label>
+        <Input type="number" defaultValue={karyawan.gaji} id="gaji" placeholder="Gaji" onChange={(e) =>this.setState({gaji:e.target.value})} required />
       </FormGroup>
       <FormGroup>
         <Label htmlFor="name">Divisi</Label>
@@ -224,9 +236,9 @@ class EditDataKaryawan extends Component {
           <Col>
             <Card>
               <CardHeader>
-                Tambah Karyawan Baru
+                Edit Data Karyawan
                 <Link to="/karyawan/datakaryawan" className={'float-right mb-0'}>
-                  <Button label color="danger">
+                  <Button color="danger">
                       Batal
                   </Button>
                 </Link>

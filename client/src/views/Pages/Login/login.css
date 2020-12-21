@@ -1,0 +1,20 @@
+.filkom-login {
+    background-color: #273245
+    }
+.bg-lightgray {
+    background-color: lightgray
+    }
+    .btn-dark {
+        color: #D2D5C1;
+        background-color: #273245;
+        border-color: #273245;
+    }
+    .btn-link-dark {
+    font-weight: 400;
+    color: currentColor;
+    text-decoration: underline;
+}
+.card-logo{
+    width: 40%;
+    align-self: center
+}

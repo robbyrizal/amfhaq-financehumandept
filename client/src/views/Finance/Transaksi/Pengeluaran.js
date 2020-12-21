@@ -22,10 +22,17 @@ class Pengeluaran extends Component {
            <Col md="12">
             <Card>
               <CardHeader>
+                
                 <i className="fa fa-align-justify"></i> Daftar Pengeluaran
+                
                 <Link to="/transaksi/buatPengeluaran" className={'float-right mb-0'}>
                   <Button label color="primary">
                       <i className="fa fa-plus-square"></i> Buat Transaksi Pengeluaran Baru
+                  </Button>
+                </Link>
+                <Link to="/transaksi/listPO" className={'float-right mb-0 mr-1'}>
+                  <Button label color="primary">
+                      <i className="fa fa-book"></i> Lihat Daftar Purchase Order
                   </Button>
                 </Link>
               </CardHeader>
@@ -35,6 +42,7 @@ class Pengeluaran extends Component {
                   <tr>
                     <th>No</th>
                     <th>Tanggal Transaksi</th>
+                    <th>ID PO</th>
                     <th>Kode Invoice</th>
                     <th>Klien</th>
                     <th>Tgl Jatuh Tempo</th>
@@ -48,6 +56,7 @@ class Pengeluaran extends Component {
                   <tr>
                     <td>1</td>
                     <td>02-02-2020</td>
+                    <td>PO-001</td>
                     <td>EXP-001</td>
                     <td>Karyawan AMF-HAQ</td>
                     <td>20-02-2020</td>
@@ -60,6 +69,7 @@ class Pengeluaran extends Component {
                   <tr>
                     <td>2</td>
                     <td>02-02-2020</td>
+                    <td>PO-002</td>
                     <td>EXP-002</td>
                     <td>Everyday Apart. & Co.</td>
                     <td>09-02-2020</td>
