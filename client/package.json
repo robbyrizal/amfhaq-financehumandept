@@ -4,7 +4,7 @@
   "description": "Website for Finance and Human Resource Department Division of AMF-HAQ Corp.",
   "author": "AMF-HAQ Team",
   "private": true,
-  "homepage": ".",
+  "homepage": "https://amfhaq-financehrd.herokuapp.com/",
   "repository": {
     "type": "git",
     "url": "https://github.com/robbyrizal/amfhaq-financehumandept.git"
