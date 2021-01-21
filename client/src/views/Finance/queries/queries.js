@@ -1,5 +1,164 @@
-import {gql} from 'apollo-boost';
+import { gql } from 'apollo-boost';
 
+const getProyeksQuery = gql`
+{
+	proyeks {
+		nama
+		alamat
+		budget
+		tanggal_mulai
+		tanggal_selesai
+		client{
+			nama
+			alamat
+			no_kontak
+			email
+			id
+		}
+		id
+	}
+}
+`
+const getProyekQuery = gql`
+	query($id: ID){
+		proyek(id: $id) {
+			nama
+			alamat
+			budget
+			tanggal_mulai
+			tanggal_selesai
+			client{
+				nama
+				alamat
+				no_kontak
+				email
+				id
+			}
+			id
+		}
+	}
+`
+const getClientsQuery = gql`
+{
+	clients {
+		nama
+		alamat
+		no_kontak
+		email
+		id
+	}
+}
+`
+const getClientQuery = gql`
+	query($id: ID){
+		client(id: $id) {
+			nama
+			alamat
+			no_kontak
+			email
+			id
+		}
+	}
+`
+const getPengeluaransQuery = gql`
+{
+	pengeluarans {
+		klien{
+			nama_klien
+			id
+		}
+		tanggal_transaksi
+		jatuh_tempo
+		keterangan
+		kode
+		jumlah_dana
+		jumlah_bayar
+		akun_debit
+		akun_kredit
+		id
+	}
+}
+`
+const getPengeluaranQuery = gql`
+	query($id: ID){
+		pengeluaran(id: $id) {
+			klien{
+				nama_klien
+				id
+			}
+			tanggal_transaksi
+			jatuh_tempo
+			keterangan
+			kode
+			jumlah_dana
+			jumlah_bayar
+			akun_debit
+			akun_kredit
+			id
+		}
+	}
+`
+const addPengeluaranMutation = gql`
+	mutation($klientagihan_id:String!, $tanggal_transaksi:String!, $jatuh_tempo:String!,
+		$keterangan:String!, $kode:String!,
+		$akun_debit:String!, $akun_kredit:String!, $jumlah_dana:Int!,
+		$jumlah_bayar:Int!,){
+		addPengeluaran(klientagihan_id: $klientagihan_id,
+		tanggal_transaksi: $tanggal_transaksi,
+		jatuh_tempo: $jatuh_tempo,
+		keterangan: $keterangan,
+		kode: $kode,
+		akun_debit: $akun_debit,
+		akun_kredit: $akun_kredit,
+		jumlah_dana: $jumlah_dana,
+		jumlah_bayar: $jumlah_bayar,){
+			tanggal_transaksi
+			jatuh_tempo
+			keterangan
+			kode
+			akun_debit
+			akun_kredit
+			jumlah_dana
+			jumlah_bayar
+			id
+		}
+	}
+`
+const updatePengeluaranMutation = gql`
+	mutation($id:ID!, $klientagihan_id:String!, $tanggal_transaksi:String!, $jatuh_tempo:String!,
+		$keterangan:String!, $kode:String!,
+		$akun_debit:String!, $akun_kredit:String!, $jumlah_dana:Int!,
+		$jumlah_bayar:Int!,){
+		updatePengeluaran(id:$id,
+		klientagihan_id: $klientagihan_id,
+		tanggal_transaksi: $tanggal_transaksi,
+		jatuh_tempo: $jatuh_tempo,
+		keterangan: $keterangan,
+		kode: $kode,
+		akun_debit: $akun_debit,
+		akun_kredit: $akun_kredit,
+		jumlah_dana: $jumlah_dana,
+		jumlah_bayar: $jumlah_bayar,){
+			tanggal_transaksi
+			jatuh_tempo
+			keterangan
+			kode
+			akun_debit
+			akun_kredit
+			jumlah_dana
+			jumlah_bayar
+			id
+		}
+	}
+`
+const hapusPengeluaranMutation = gql`
+	mutation($id:ID!){
+		hapusPengeluaran(id: $id){
+			id
+		}
+	}
+`
+//----------------------------------------------------------------------------//
 const getKlienTagihansQuery = gql`
 {
 	klientagihans {
@@ -37,7 +196,6 @@ const getAkunDebitKreditsQuery = gql`
 	akundebitkredits {
 		kode_akun
 		nama_akun
-		jenis_akun
 		id
 	}
 }
@@ -47,21 +205,30 @@ const getAkunDebitKreditQuery = gql`
 		akundebitkredit(id: $id) {
 			kode_akun
 			nama_akun
-			jenis_akun
 			id
 		}
 	}
 `
 const addAkunDebitKreditMutation = gql`
 	mutation($kode_akun:String!,
-		$nama_akun:String!,
-		$jenis_akun:String!){
+		$nama_akun:String!,){
 		addAkunDebitKredit(kode_akun: $kode_akun,
-			nama_akun: $nama_akun,
-			jenis_akun: $jenis_akun){
+			nama_akun: $nama_akun,){
 			kode_akun
 			nama_akun
-			jenis_akun
+			id
+		}
+	}
+`
+const updateAkunDebitKreditMutation = gql`
+	mutation($id:ID!,
+		$kode_akun:String!,
+		$nama_akun:String!,){
+		updateAkunDebitKredit(id:$id,
+			kode_akun: $kode_akun,
+			nama_akun: $nama_akun,){
+			kode_akun
+			nama_akun
 			id
 		}
 	}
@@ -88,6 +255,10 @@ const getPurchaseOrdersQuery = gql`
 `
 //----------------------------------------------------------------------------//
 export {
+	getClientsQuery,
+	getClientQuery,
+	getProyeksQuery,
+	getProyekQuery,
 	getKlienTagihansQuery,
 	getKlienTagihanQuery,
 	addKlienTagihanMutation,
@@ -95,6 +266,12 @@ export {
 	getAkunDebitKreditsQuery,
 	getAkunDebitKreditQuery,
 	addAkunDebitKreditMutation,
+	updateAkunDebitKreditMutation,
 	hapusAkunDebitKreditMutation,
 	getPurchaseOrdersQuery,
+	getPengeluaranQuery,
+	getPengeluaransQuery,
+	addPengeluaranMutation,
+	updatePengeluaranMutation,
+	hapusPengeluaranMutation,
 };

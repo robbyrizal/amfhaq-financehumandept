@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 const AkunDebitKreditSchema = new Schema({
 	kode_akun: String,
 	nama_akun: String,
-	jenis_akun: String,
 
 });
 

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import {graphql} from 'react-apollo';
 import * as compose from 'lodash.flowright';
-import {getAkunDebitKreditsQuery, addAkunDebitKreditMutation, hapusAkunDebitKreditMutation} from '../queries/queries';
+import {getAkunDebitKreditsQuery, addAkunDebitKreditMutation, updateAkunDebitKreditMutation, hapusAkunDebitKreditMutation} from '../queries/queries';
 import {
   Card,
   CardBody,
@@ -29,14 +28,30 @@ class AkunDebitKredit extends Component {
     this.state = {
       kode_akun: '',
       nama_akun: '',
-      jenis_akun: 'Debit',
+      akundebitkredit_id: '',
       modalIsOpen: false,
+      modalEditIsOpen: false,
     };
   }
 
     toggleModal(){
       this.setState({
         modalIsOpen: ! this.state.modalIsOpen
+      });
+    }
+
+    toggleModalEdit(){
+      this.setState({
+        modalEditIsOpen: ! this.state.modalEditIsOpen
+      });
+    }
+ // eslint-disable-next-line
+    toggleModalEdit(id,kode_akun1,nama_akun1){
+      this.setState({
+        modalEditIsOpen: ! this.state.modalEditIsOpen,
+        akundebitkredit_id : id,
+        kode_akun: kode_akun1,
+        nama_akun: nama_akun1,
       });
     }
 
@@ -47,10 +62,25 @@ class AkunDebitKredit extends Component {
           variables:{
             kode_akun: this.state.kode_akun,
             nama_akun: this.state.nama_akun,
-            jenis_akun: this.state.jenis_akun,
           },
           refetchQueries:[{query:getAkunDebitKreditsQuery}]
         });
+      }
+
+      
+      submitEditForm(e){
+        e.preventDefault();
+        this.toggleModalEdit();
+            this.props.updateAkunDebitKreditMutation({
+                variables:{
+                  id:this.state.akundebitkredit_id,
+                  kode_akun: this.state.kode_akun,
+                  nama_akun: this.state.nama_akun,
+                },
+                refetchQueries:[{query:getAkunDebitKreditsQuery}]
+              });
+       
+        
       }
 
       onDelete(akundebitkredit_id){
@@ -75,13 +105,10 @@ class AkunDebitKredit extends Component {
             <td key={akundebitkredit.id}>{no}</td>
             <td key={akundebitkredit.id}>{akundebitkredit.kode_akun}</td>
             <td key={akundebitkredit.id}>{akundebitkredit.nama_akun}</td>
-            <td key={akundebitkredit.id}>{akundebitkredit.jenis_akun}</td>
             <td key={akundebitkredit.id}>
-              <Link to={`/datamaster/editAkunDebitKredit/${akundebitkredit.id}`}>
-              <Button color="success" size="sm">
+            <Button onClick={this.toggleModalEdit.bind(this, akundebitkredit.id,akundebitkredit.kode_akun, akundebitkredit.nama_akun)} color="success" size="sm">
                 <i className="fa fa-pencil"></i>
               </Button>
-              </Link>
             </td>
             <td>
               <Button onClick={this.onDelete.bind(this, akundebitkredit.id)} color="danger" size="sm">
@@ -119,7 +146,6 @@ class AkunDebitKredit extends Component {
                     <th>No</th>
                     <th>Kode Akun</th>
                     <th>Nama Akun</th>
-                    <th>Jenis Akun</th>
                     <th colspan="2">Aksi</th>
                   </tr>
                   </thead>
@@ -156,13 +182,6 @@ class AkunDebitKredit extends Component {
               <Label htmlFor="name">Nama Akun</Label>
               <Input type="text" id="nama_akun" placeholder="Nama Akun" onChange={(e) =>this.setState({nama_akun:e.target.value})} required />
             </FormGroup>
-            <FormGroup>
-              <Label htmlFor="name">Jenis Akun</Label>
-              <Input type="select" id="jenis_akun" onChange={(e) =>this.setState({jenis_akun:e.target.value})} required >
-                <option value="Debit">Debit</option>
-                <option value="Kredit">Kredit</option>
-              </Input>
-            </FormGroup>
 
               <Button type="submit" color="primary">Submit</Button>
               <Button color="danger" onClick={this.toggleModal.bind(this)}>Batal</Button>
@@ -170,6 +189,24 @@ class AkunDebitKredit extends Component {
           </ModalBody>
         </Modal>
 
+        <Modal isOpen={this.state.modalEditIsOpen}>
+          <ModalHeader>Form Edit Akun Debit Kredit</ModalHeader>
+          <ModalBody>
+            <Form onSubmit={(e) => {this.submitEditForm(e)}}>
+            <FormGroup>
+              <Label htmlFor="name">Kode Akun</Label>
+              <Input type="text" defaultValue={this.state.kode_akun} id="kode_akun" placeholder="Kode Akun" onChange={(e) =>this.setState({kode_akun:e.target.value})} required />
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor="name">Nama Akun</Label>
+              <Input type="text" defaultValue={this.state.nama_akun} id="nama_akun" placeholder="Nama Akun" onChange={(e) =>this.setState({nama_akun:e.target.value})} required />
+            </FormGroup>
+            
+              <Button type="submit" color="primary">Submit</Button>
+              <Button color="danger" onClick={this.toggleModalEdit.bind(this)}>Batal</Button>
+            </Form>
+          </ModalBody>
+        </Modal>
       </div>
 
     );
@@ -180,5 +217,6 @@ class AkunDebitKredit extends Component {
 export default compose(
   graphql(getAkunDebitKreditsQuery, {name:"getAkunDebitKreditsQuery"}),
   graphql(addAkunDebitKreditMutation, {name:"addAkunDebitKreditMutation"}),
+  graphql(updateAkunDebitKreditMutation, {name:"updateAkunDebitKreditMutation"}),
   graphql(hapusAkunDebitKreditMutation, {name:"hapusAkunDebitKreditMutation"})
 )(AkunDebitKredit);
