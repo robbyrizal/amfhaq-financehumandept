@@ -112,9 +112,9 @@ const PemasukanType = new GraphQLObjectType({
 		id: { type: GraphQLID },
 		kode: { type: GraphQLString },
 		klien: {
-			type: KlienTagihanType,
+			type: ClientType,
 			resolve(parent, args) {
-				return KlienTagihan.findById(parent.klientagihan_id);
+				return Client.findById(parent.klien_id);
 			}
 		},
 		proyek: {
@@ -125,8 +125,11 @@ const PemasukanType = new GraphQLObjectType({
 		},
 		keterangan: { type: GraphQLString },
 		tanggal_transaksi: { type: GraphQLString },
+		jatuh_tempo: { type: GraphQLString },
 		total_harga: { type: GraphQLInt },
 		dana_diterima: { type: GraphQLInt },
+		akun_debit: { type: GraphQLString },
+		akun_kredit: { type: GraphQLString },
 	})
 });
 
@@ -274,6 +277,21 @@ const RootQuery = new GraphQLObjectType({
 			args: { id: { type: GraphQLID } },
 			resolve(parent, args) {
 				return Pengeluaran.find({});
+			}
+		},
+		//----------------------------------------------------------------------------//
+		pemasukan: {
+			type: PemasukanType,
+			args: { id: { type: GraphQLID } },
+			resolve(parent, args) {
+				return Pemasukan.findById(args.id);
+			}
+		},
+		pemasukans: {
+			type: new GraphQLList(PemasukanType),
+			args: { id: { type: GraphQLID } },
+			resolve(parent, args) {
+				return Pemasukan.find({});
 			}
 		},
 		//----------------------------------------------------------------------------//
@@ -507,6 +525,77 @@ const Mutation = new GraphQLObjectType({
 			args: { id: { type: GraphQLID } },
 			resolve(parent, args) {
 				return Pengeluaran.deleteOne({ _id: args.id });
+			}
+		},
+		//----------------------------------------------------------------------------//
+		addPemasukan: {
+			type: PemasukanType,
+			args: {
+				kode: { type: new GraphQLNonNull(GraphQLString) },
+				klien_id: { type: new GraphQLNonNull(GraphQLString) },
+				proyek_id: { type: new GraphQLNonNull(GraphQLString) },
+				keterangan: { type: new GraphQLNonNull(GraphQLString) },
+				tanggal_transaksi: { type: new GraphQLNonNull(GraphQLString) },
+				jatuh_tempo: { type: new GraphQLNonNull(GraphQLString) },
+				total_harga: { type: new GraphQLNonNull(GraphQLInt) },
+				dana_diterima: { type: new GraphQLNonNull(GraphQLInt) },
+				akun_debit: { type: new GraphQLNonNull(GraphQLString) },
+				akun_kredit: { type: new GraphQLNonNull(GraphQLString) },
+			},
+			resolve(parent, args) {
+				let request = new Pemasukan({
+					kode: args.kode,
+					tanggal_transaksi: args.tanggal_transaksi,
+					klien_id: args.klien_id,
+					proyek_id: args.proyek_id,
+					keterangan: args.keterangan,
+					jatuh_tempo: args.jatuh_tempo,
+					total_harga: args.total_harga,
+					dana_diterima: args.dana_diterima,
+					akun_debit: args.akun_debit,
+					akun_kredit: args.akun_kredit,
+				});
+				return request.save();
+			}
+		},
+
+		updatePemasukan: {
+			type: PemasukanType,
+			args: {
+				id: { type: new GraphQLNonNull(GraphQLID) },
+				kode: { type: new GraphQLNonNull(GraphQLString) },
+				klien_id: { type: new GraphQLNonNull(GraphQLString) },
+				proyek_id: { type: new GraphQLNonNull(GraphQLString) },
+				keterangan: { type: new GraphQLNonNull(GraphQLString) },
+				tanggal_transaksi: { type: new GraphQLNonNull(GraphQLString) },
+				jatuh_tempo: { type: new GraphQLNonNull(GraphQLString) },
+				total_harga: { type: new GraphQLNonNull(GraphQLInt) },
+				dana_diterima: { type: new GraphQLNonNull(GraphQLInt) },
+				akun_debit: { type: new GraphQLNonNull(GraphQLString) },
+				akun_kredit: { type: new GraphQLNonNull(GraphQLString) },
+			},
+			resolve(parent, args) {
+
+				return Pemasukan.findOneAndUpdate({ _id: args.id },
+					{
+						kode: args.kode,
+						tanggal_transaksi: args.tanggal_transaksi,
+						klien_id: args.klien_id,
+						proyek_id: args.proyek_id,
+						keterangan: args.keterangan,
+						jatuh_tempo: args.jatuh_tempo,
+						total_harga: args.total_harga,
+						dana_diterima: args.dana_diterima,
+						akun_debit: args.akun_debit,
+						akun_kredit: args.akun_kredit,
+					})
+			}
+		},
+		hapusPemasukan: {
+			type: PemasukanType,
+			args: { id: { type: GraphQLID } },
+			resolve(parent, args) {
+				return Pemasukan.deleteOne({ _id: args.id });
 			}
 		},
 		//----------------------------------------------------------------------------//

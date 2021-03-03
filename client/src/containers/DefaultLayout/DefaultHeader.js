@@ -4,7 +4,7 @@ import { Badge, UncontrolledDropdown, DropdownItem, DropdownMenu, DropdownToggle
 import PropTypes from 'prop-types';
 
 import {  AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
-import sygnet from '../../assets/img/brand/amfhaq.png'
+import sygnet from '../../assets/img/brand/amfhaq.PNG'
 
 const propTypes = {
   children: PropTypes.node,
