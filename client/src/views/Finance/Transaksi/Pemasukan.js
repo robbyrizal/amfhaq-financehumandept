@@ -29,6 +29,8 @@ import {
   getAkunDebitKreditsQuery,
   getPemasukansQuery,
   addPemasukanMutation,
+  updatePemasukanMutation,
+  hapusPemasukanMutation
 } from "../queries/queries";
 import "./index.css";
 
@@ -41,6 +43,7 @@ class Pemasukan extends Component {
     curr.setDate(curr.getDate() + 30);
     var tempo = curr.toISOString().substr(0, 10);
     this.state = {
+      pemasukan_id : "",
       kode: "",
       tanggal_transaksi: date,
       klien: "",
@@ -52,6 +55,7 @@ class Pemasukan extends Component {
       akun_debit: "",
       akun_kredit: "",
       modalIsOpen: false,
+      modalEditIsOpen: false,
     };
   }
 
@@ -60,7 +64,36 @@ class Pemasukan extends Component {
       modalIsOpen: !this.state.modalIsOpen,
     });
   }
-
+  toggleModalEdit(){
+    this.setState({
+      modalEditIsOpen: ! this.state.modalEditIsOpen
+    });
+  }
+// eslint-disable-next-line
+  toggleModalEdit(id,
+    tanggal_transaksiE, 
+    klienE, 
+    proyekE, 
+    tempoE, 
+    dana_diterimaE,
+    akun_debitE,
+    akun_kreditE,
+    keteranganE, 
+    total_hargaE){
+    this.setState({
+      modalEditIsOpen: ! this.state.modalEditIsOpen,
+      pemasukan_id : id,
+      tanggal_transaksi: tanggal_transaksiE,
+      klien: klienE,
+      proyek: proyekE,
+      keterangan: keteranganE,
+      jatuh_tempo: tempoE,
+      total_harga: total_hargaE,
+      dana_diterima: dana_diterimaE,
+      akun_debit: akun_debitE,
+      akun_kredit: akun_kreditE,
+    });
+  }
   getKodeBaru() {
     var newKode = "INC-";
     var kodeku = "";
@@ -105,6 +138,27 @@ class Pemasukan extends Component {
     });
     // console.log(parseInt(this.state.total_harga));
     // console.log(e.target.total_hargaF.value)
+  }
+  submitEditForm(e){
+    e.preventDefault();
+    this.toggleModalEdit();
+        this.props.updatePemasukanMutation({
+            variables:{
+              id:this.state.pemasukan_id,
+              tanggal_transaksi: this.state.tanggal_transaksi,
+        klien_id: this.state.klien,
+        proyek_id: this.state.proyek,
+        keterangan: this.state.keterangan,
+        jatuh_tempo: this.state.jatuh_tempo,
+        akun_debit: this.state.akun_debit,
+        akun_kredit: this.state.akun_kredit,
+        total_harga: parseInt(this.state.total_harga),
+        dana_diterima: parseInt(this.state.dana_diterima),
+            },
+            refetchQueries:[{query:getPemasukansQuery}]
+          });
+   
+    
   }
 
   onDelete(pemasukan_id) {
@@ -169,11 +223,19 @@ class Pemasukan extends Component {
             <td>Tunai / Cicilan</td>
             <td>Lunas / Belum Lunas</td>
             <td>
-              <Link to={`/pemasukan/editDataPemasukan/${pemasukan.id}`}>
-                <Button color="success" size="sm">
-                  <i className="fa fa-pencil"></i>
-                </Button>
-              </Link>
+            <Button onClick={this.toggleModalEdit.bind(this, 
+            pemasukan.id,
+              pemasukan.tanggal_transaksi, 
+              pemasukan.klien.id, 
+              pemasukan.proyek.id, 
+              pemasukan.jatuh_tempo, 
+              pemasukan.dana_diterima, 
+              pemasukan.akun_debit, 
+              pemasukan.akun_kredit, 
+              pemasukan.keterangan, 
+              pemasukan.total_harga)} color="success" size="sm">
+                <i className="fa fa-pencil"></i>
+              </Button>
             </td>
             <td>
               <Button
@@ -450,6 +512,156 @@ class Pemasukan extends Component {
             </Form>
           </ModalBody>
         </Modal>
+
+        <Modal isOpen={this.state.modalEditIsOpen}>
+          <ModalHeader>Form Edit Data Pemasukan</ModalHeader>
+          <ModalBody>
+            <Form
+              onSubmit={(e) => {
+                this.submitEditForm(e);
+              }}
+            >
+              <FormGroup>
+                <Label htmlFor="name">Klien / Vendor</Label>
+                <Input
+                  type="select"
+                  id="vendor"
+                  defaultValue={this.state.klien}
+                  onChange={(e) => this.setState({ klien: e.target.value })}
+                  required
+                >
+                  <option value="">Pilih Klien / Vendor</option>
+                  {this.displayKlien()}
+                </Input>
+              </FormGroup>
+              <FormGroup>
+                <Label htmlFor="name">Nama Proyek</Label>
+                <Input
+                  type="select"
+                  id="proyek"
+                  defaultValue={this.state.proyek}
+                  onChange={(e) => this.setState({ proyek: e.target.value })}
+                  required
+                >
+                  <option value="">Pilih Proyek</option>
+                  {this.displayProyek()}
+                </Input>
+              </FormGroup>
+              <FormGroup>
+                <Label htmlFor="name">Keterangan</Label>
+                <Input
+                  type="textarea"
+                  name="Keterangan"
+                  id="keterangan"
+                  placeholder="Keterangan"
+                  defaultValue={this.state.keterangan}
+                  onChange={(e) =>
+                    this.setState({ keterangan: e.target.value })
+                  }
+                  required
+                ></Input>
+              </FormGroup>
+              <FormGroup>
+                <Label htmlFor="name">Total Harga</Label>
+                <InputGroup>
+                  <InputGroupAddon addonType="prepend">Rp.</InputGroupAddon>
+                  <Input
+                    type="number"
+                    name="total_hargaEF"
+                    Value={this.setTotalHarga()}
+                    defaultValue={this.state.total_harga}
+                    placeholder="Masukkan Jumlah Biaya"
+                    className="text-align-right"
+                    readOnly
+                  />
+                  <InputGroupAddon addonType="append">.00</InputGroupAddon>
+                </InputGroup>
+              </FormGroup>
+              <FormGroup>
+                <Label htmlFor="name">Dana Diterima</Label>
+                <InputGroup>
+                  <InputGroupAddon addonType="prepend">Rp.</InputGroupAddon>
+                  <Input
+                    type="number"
+                    max={this.setTotalHarga()}
+                    placeholder="Masukkan Dana Diterima"
+                    defaultValue={this.state.dana_diterima}
+                    className="text-align-right"
+                    onChange={(e) =>
+                      this.setState({ dana_diterima: e.target.value })
+                    }
+                    required
+                  />
+                  <InputGroupAddon addonType="append">.00</InputGroupAddon>
+                </InputGroup>
+              </FormGroup>
+              <FormGroup>
+                <Label htmlFor="name">Tanggal Transaksi</Label>
+                <Input
+                  type="date"
+                  defaultValue={this.state.tanggal_transaksi}
+                  id="tgltrans"
+                  placeholder="Masukkan Tanggal Transaksi"
+                  onChange={(e) =>
+                    this.setState({ tanggal_transaksi: e.target.value })
+                  }
+                  required
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label htmlFor="name">Jatuh Tempo</Label>
+                <Input
+                  type="date"
+                  defaultValue={this.state.jatuh_tempo}
+                  id="jatuh_tempo"
+                  placeholder="Masukkan Tanggal Jatuh Tempo"
+                  onChange={(e) =>
+                    this.setState({ jatuh_tempo: e.target.value })
+                  }
+                  required
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label htmlFor="name">Akun Debit</Label>
+                <Input
+                  type="select"
+                  name="akun_deb"
+                  id="akun_deb"
+                  defaultValue={this.state.akun_debit}
+                  onChange={(e) =>
+                    this.setState({ akun_debit: e.target.value })
+                  }
+                  required
+                >
+                  <option value="">Pilih Akun Debit</option>
+                  {this.displayAkunDebit()}
+                </Input>
+              </FormGroup>
+              <FormGroup>
+                <Label htmlFor="name">Akun Kredit</Label>
+                <Input
+                  type="select"
+                  name="akun_kre"
+                  id="akun_kre"
+                  defaultValue={this.state.akun_kredit}
+                  onChange={(e) =>
+                    this.setState({ akun_kredit: e.target.value })
+                  }
+                  required
+                >
+                  <option value="">Pilih Akun Kredit</option>
+                  {this.displayAkunKredit()}
+                </Input>
+              </FormGroup>
+              <Button type="submit" color="primary">
+                Submit
+              </Button>
+              <Button color="danger" onClick={this.toggleModalEdit.bind(this)}>
+                Batal
+              </Button>
+            </Form>
+          </ModalBody>
+        </Modal>
       </div>
     );
   }
@@ -460,6 +672,7 @@ export default compose(
   graphql(getClientsQuery, { name: "getClientsQuery" }),
   graphql(getProyeksQuery, { name: "getProyeksQuery" }),
   graphql(addPemasukanMutation, { name: "addPemasukanMutation" }),
-  // graphql(hapusPemasukanMutation, {name:"hapusPemasukanMutation"}),
+  graphql(updatePemasukanMutation, { name: "updatePemasukanMutation" }),
+  graphql(hapusPemasukanMutation, {name:"hapusPemasukanMutation"}),
   graphql(getAkunDebitKreditsQuery, { name: "getAkunDebitKreditsQuery" })
 )(Pemasukan);

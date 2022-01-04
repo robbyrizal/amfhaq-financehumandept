@@ -54,6 +54,7 @@ const EditDataKaryawan = React.lazy(() => import('./views/HumanResource/Karyawan
 const PurchaseOrder = React.lazy(() => import('./views/Finance/Transaksi/PurchaseOrder'));
 
 const Akun = React.lazy(() => import('./views/HumanResource/Akun/Akun'));
+const Profile = React.lazy(() => import('./views/Profile/Profile'));
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -116,6 +117,7 @@ const routes = [
   { path: '/karyawan/editDataKaryawan/:id', exact: true, name: 'Edit Karyawan', component: EditDataKaryawan },
   
   { path: '/akun/akun', exact: true, name: 'Data Akun', component: Akun },
+  { path: '/profile/profile', exact: true, name: 'Profile', component: Profile },
 
 
 ];

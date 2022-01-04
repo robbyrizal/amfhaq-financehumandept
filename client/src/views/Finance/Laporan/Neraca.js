@@ -7,9 +7,23 @@ import {
   Col,
   Row,
   Table,
+  FormGroup,
+  Form,
+  Label,
+  Input,
 } from 'reactstrap';
+import YearPicker from "react-year-picker";
 
 class Neraca extends Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+  }
+ 
+  handleChange(date) {
+    console.log(date);
+  }
+
   render() {
     return (
       <div className="animated fadeIn">
@@ -21,6 +35,12 @@ class Neraca extends Component {
 
               </CardHeader>
               <CardBody>
+              <Form>
+                  <FormGroup>
+                    <Label htmlFor="name">Filter Tanggal</Label>
+                    <YearPicker onChange={this.handleChange} />
+                  </FormGroup>
+                </Form>
                 <Table hover bordered striped responsive size="sm">
                   <thead>
                   <tr>

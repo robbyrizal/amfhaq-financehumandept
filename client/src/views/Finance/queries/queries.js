@@ -503,33 +503,32 @@ const addPemasukanMutation = gql`
 `;
 const updatePemasukanMutation = gql`
   mutation(
-    $id: ID!
-    $klientagihan_id: String!
-    $tanggal_transaksi: String!
-    $jatuh_tempo: String!
-    $keterangan: String!
-    $kode: String!
-    $akun_debit: String!
-    $akun_kredit: String!
-    $jumlah_dana: Int!
-    $jumlah_bayar: Int!
+    $id: ID!,
+    $klien_id: String!,
+    $proyek_id: String!,
+    $tanggal_transaksi: String!,
+    $jatuh_tempo: String!,
+    $keterangan: String!,
+    $akun_debit: String!,
+    $akun_kredit: String!,
+    $total_harga: Int!,
+    $dana_diterima: Int!,
   ) {
     updatePemasukan(
-      id: $id
-      klientagihan_id: $klientagihan_id
-      tanggal_transaksi: $tanggal_transaksi
-      jatuh_tempo: $jatuh_tempo
-      keterangan: $keterangan
-      kode: $kode
-      akun_debit: $akun_debit
-      akun_kredit: $akun_kredit
-      jumlah_dana: $jumlah_dana
-      jumlah_bayar: $jumlah_bayar
+      id: $id,
+      klien_id: $klien_id,
+      proyek_id: $proyek_id,
+      tanggal_transaksi: $tanggal_transaksi,
+      jatuh_tempo: $jatuh_tempo,
+      keterangan: $keterangan,
+      akun_debit: $akun_debit,
+      akun_kredit: $akun_kredit,
+      total_harga: $total_harga,
+      dana_diterima: $dana_diterima,
     ) {
       tanggal_transaksi
       jatuh_tempo
       keterangan
-      kode
       akun_debit {
         kode_akun
         nama_akun
@@ -540,8 +539,8 @@ const updatePemasukanMutation = gql`
         nama_akun
         id
       }
-      jumlah_dana
-      jumlah_bayar
+      total_harga
+      dana_diterima
       id
     }
   }

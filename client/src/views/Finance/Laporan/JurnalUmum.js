@@ -249,7 +249,7 @@ class JurnalUmum extends Component {
   }
   render() {
     // console.log(this.displayPemasukan());
-    console.log(this.displaytanggal());
+    // console.log(this.displaytanggal());
     return (
       <div className="animated fadeIn">
         <Row>

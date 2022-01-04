@@ -1,5 +1,7 @@
 const graphql = require("graphql");
 const _ = require("lodash");
+const path = require("path");
+const fs = require("fs");
 const Karyawan = require("./models/KaryawanModel");
 const KlienTagihan = require("./models/KlienTagihanModel");
 const AkunDebitKredit = require("./models/AkunDebitKreditModel");
@@ -270,6 +272,13 @@ const DivisiType = new GraphQLObjectType({
     },
   }),
 });
+
+const FotoType = new GraphQLObjectType({
+  name: "Foto",
+  fields: () => ({
+    url: { type: GraphQLString },
+  }),
+});
 //----------------------------------------------------------------------------//
 //----------------------------------------------------------------------------//
 const RootQuery = new GraphQLObjectType({
@@ -491,6 +500,49 @@ const Mutation = new GraphQLObjectType({
       },
     },
     //----------------------------------------------------------------------------//
+    editBiodataKaryawan: {
+      type: KaryawanType,
+      args: {
+        id: { type: GraphQLID },
+        nama: { type: new GraphQLNonNull(GraphQLString) },
+        tanggal_lahir: { type: new GraphQLNonNull(GraphQLString) },
+        jenis_kelamin: { type: new GraphQLNonNull(GraphQLString) },
+        agama: { type: new GraphQLNonNull(GraphQLString) },
+        tempat_lahir: { type: new GraphQLNonNull(GraphQLString) },
+        alamat: { type: new GraphQLNonNull(GraphQLString) },
+        no_kontak: { type: new GraphQLNonNull(GraphQLString) },
+        email: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve(parent, args) {
+        return Karyawan.findOneAndUpdate(
+          { _id: args.id },
+          {
+            nama: args.nama,
+            tanggal_lahir: args.tanggal_lahir,
+            jenis_kelamin: args.jenis_kelamin,
+            agama: args.agama,
+            tempat_lahir: args.tempat_lahir,
+            alamat: args.alamat,
+            no_kontak: args.no_kontak,
+            email: args.email,
+          }
+        );
+      },
+    },
+    uploadFoto: {
+      type: FotoType,
+      resolve(parent, { foto }) {
+        const { createredStream, filename } = foto;
+
+        const stream = createredStream();
+        const pathName = path.join(__dirname, `/client/src/images/${filename}`);
+        stream.pipe(fs.createWriteStream(pathName));
+
+        return {
+          url: `http://localhost:3000/client/src/images/${filename}`,
+        };
+      },
+    },
     addKaryawan: {
       type: KaryawanType,
       args: {
@@ -750,7 +802,6 @@ const Mutation = new GraphQLObjectType({
       type: PemasukanType,
       args: {
         id: { type: new GraphQLNonNull(GraphQLID) },
-        kode: { type: new GraphQLNonNull(GraphQLString) },
         klien_id: { type: new GraphQLNonNull(GraphQLString) },
         proyek_id: { type: new GraphQLNonNull(GraphQLString) },
         keterangan: { type: new GraphQLNonNull(GraphQLString) },
@@ -765,7 +816,6 @@ const Mutation = new GraphQLObjectType({
         return Pemasukan.findOneAndUpdate(
           { _id: args.id },
           {
-            kode: args.kode,
             tanggal_transaksi: args.tanggal_transaksi,
             klien_id: args.klien_id,
             proyek_id: args.proyek_id,

@@ -23,7 +23,9 @@
     "mongoose": "^5.10.7",
     "react-confirm-alert": "^2.6.2",
     "react-helmet": "^6.1.0",
-    "react-notifications": "^1.7.2"
+    "react-notifications": "^1.7.2",
+    "react-year-picker": "^0.3.7",
+    "sweetalert2": "^11.3.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
