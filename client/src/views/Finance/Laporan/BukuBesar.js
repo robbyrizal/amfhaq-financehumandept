@@ -28,7 +28,7 @@ class BukuBesar extends Component {
       jumlahnomor: 0,
       jumlahdebit: 0,
       jumlahkredit: 0,
-      tanggal_jurnal: "2021-04",
+      tanggal_jurnal: "2020-12",
     };
   }
 
@@ -124,17 +124,22 @@ class BukuBesar extends Component {
     var pemasukan = this.props.getPemasukansQuery;
     var pengeluaran = this.props.getPengeluaransQuery;
     const jurnalumum = [];
+    const neraca = [];
     var no = 0;
     var totaldebit = 0;
     var totalkredit = 0;
+    var kode_akun = "";
+    var nama_akun = "";
     var tanggal = this.state.tanggal_jurnal;
     if (pemasukan.loading) {
       return;
     } else {
       // eslint-disable-next-line
       pemasukan.pemasukans.map((pemasukan) => {
+        
         if (pemasukan.tanggal_transaksi.includes(tanggal)) {
           no++;
+          
           jurnalumum.push({
             nomor: no,
             tanggal: pemasukan.tanggal_transaksi,
@@ -159,6 +164,7 @@ class BukuBesar extends Component {
         }
       });
     }
+
     if (pengeluaran.loading) {
       return;
     } else {
@@ -204,9 +210,9 @@ class BukuBesar extends Component {
         console.log("Ganti Akun");
         return (
           <tbody>
-            <tr>
+            {/* <tr>
               <td colSpan="5">Ganti Akun</td>
-            </tr>
+            </tr> */}
             <tr>
               <td>{jurnalumum.tanggal}</td>
               <td>{jurnalumum.kode_akun}</td>

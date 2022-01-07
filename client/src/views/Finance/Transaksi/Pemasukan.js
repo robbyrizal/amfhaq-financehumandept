@@ -220,8 +220,8 @@ class Pemasukan extends Component {
             <td>{pemasukan.kode}</td>
             <td>{pemasukan.keterangan}</td>
             <td>{pemasukan.total_harga}</td>
-            <td>Tunai / Cicilan</td>
-            <td>Lunas / Belum Lunas</td>
+            {/* <td>Tunai</td>
+            <td>Lunas</td> */}
             <td>
             <Button onClick={this.toggleModalEdit.bind(this, 
             pemasukan.id,
@@ -333,8 +333,8 @@ class Pemasukan extends Component {
                       <th>Kode Invoice</th>
                       <th>Keterangan</th>
                       <th>Nilai</th>
-                      <th>Tipe Pembayaran</th>
-                      <th>Status</th>
+                      {/* <th>Tipe Pembayaran</th>
+                      <th>Status</th> */}
                       <th colSpan="2">Aksi</th>
                     </tr>
                   </thead>

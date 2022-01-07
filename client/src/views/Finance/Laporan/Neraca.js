@@ -31,7 +31,7 @@ class Neraca extends Component {
            <Col md="12">
             <Card>
               <CardHeader>
-                <i className="fa fa-align-justify"></i> Neraca - Februari 2020
+                <i className="fa fa-align-justify"></i> Neraca - Desember 2020
 
               </CardHeader>
               <CardBody>
@@ -43,47 +43,140 @@ class Neraca extends Component {
                 </Form>
                 <Table hover bordered striped responsive size="sm">
                   <thead>
-                  <tr>
-                    <th colspan="2">Aktiva</th>
-                    <th colspan="2">Utang & Modal</th>
-                  </tr>
+                    <tr>
+                      <th>Kode Akun</th>
+                      <th>Nama Akun</th>
+                      <th>Debet</th>
+                      <th>Kredit</th>
+                    </tr>
                   </thead>
                   <tbody>
-                  <tr className="font-weight-bold">
-                    <td colspan="2">Aset Lancar :</td>
-                    <td colspan="2">Utang :</td>
-                  </tr>
-                  <tr>
-                    <td>Kas</td>
-                    <td className="text-right">142.000.000</td>
-                    <td>Utang Usaha</td>
-                    <td className="text-right">0</td>
-                  </tr>
-                  <tr className="font-weight-bold">
-                    <td colspan="2">Aset Tetap :</td>
-                    <td colspan="2">Modal :</td>
-                  </tr>
-                  <tr>
-                    <td>Perlengkapan</td>
-                    <td className="text-right">0</td>
-                    <td>Modal Disetor</td>
-                    <td className="text-right">200.000.000</td>
-                  </tr>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td>Laba</td>
-                    <td className="text-right">- 58.000.000</td>
-                  </tr>
-                  </tbody>
-                  <tfoot className="font-weight-bold">
                     <tr>
-                    <td>Total Aset</td>
-                    <td className="text-right">142.000.000</td>
-                    <td>Total Utang dan Modal</td>
-                    <td className="text-right">142.000.000</td>
-                    </tr>
-                  </tfoot>
+              <td>1111</td>
+              <td>Kas</td>
+              <td
+                style={{
+                  textAlign: "right",
+                }}
+              >
+                Rp 148.200.000
+              </td>
+              <td
+                style={{
+                  textAlign: "right",
+                }}
+              >
+                Rp 0
+              </td>
+            </tr>
+                    <tr>
+              <td>1112</td>
+              <td>Bank</td>
+              <td
+                style={{
+                  textAlign: "right",
+                }}
+              >
+                Rp 200.000
+              </td>
+              <td
+                style={{
+                  textAlign: "right",
+                }}
+              >
+                Rp 0
+              </td>
+            </tr>
+                    <tr>
+              <td>2221</td>
+              <td>Utang</td>
+              <td
+                style={{
+                  textAlign: "right",
+                }}
+              >
+                Rp 0
+              </td>
+              <td
+                style={{
+                  textAlign: "right",
+                }}
+              >
+                Rp 200.000
+              </td>
+            </tr>
+                    <tr>
+              <td>4411</td>
+              <td>Pendapatan Proyek	</td>
+              <td
+                style={{
+                  textAlign: "right",
+                }}
+              >
+                Rp 0
+              </td>
+              <td
+                style={{
+                  textAlign: "right",
+                }}
+              >
+                Rp 150.000.000
+              </td>
+            </tr>
+                    <tr>
+              <td>5512</td>
+              <td>Beban Gaji	</td>
+              <td
+                style={{
+                  textAlign: "right",
+                }}
+              >
+                Rp 1.500.000
+              </td>
+              <td
+                style={{
+                  textAlign: "right",
+                }}
+              >
+                Rp 0
+              </td>
+            </tr>
+                    <tr>
+              <td>5513</td>
+              <td>Beban Internet, Listrik, Air	</td>
+              <td
+                style={{
+                  textAlign: "right",
+                }}
+              >
+                Rp 300.000
+              </td>
+              <td
+                style={{
+                  textAlign: "right",
+                }}
+              >
+                Rp 0
+              </td>
+            </tr>
+            <tr>
+                      <td colSpan="2"></td>
+                      <td
+                        style={{
+                          textAlign: "right",
+                        }}
+                      >
+                        Rp 150.200.000
+                      </td>
+                      <td
+                        style={{
+                          textAlign: "right",
+                        }}
+                      >
+                        {" "}
+                        Rp 150.200.000
+                      </td>
+                    </tr></tbody>
                 </Table>
               </CardBody>
             </Card>

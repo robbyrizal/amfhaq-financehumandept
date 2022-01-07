@@ -18,14 +18,26 @@ import {
 } from '@coreui/react';
 // sidebar nav config
 import navigation from '../../_nav';
+import navigationHRD from '../../_nav_HRD';
+import navigationFinance from '../../_nav_Finance';
 // routes config
 import routes from '../../routes';
 
 const DefaultAside = React.lazy(() => import('./DefaultAside'));
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
+const Nav = React.lazy(() => import('../../_nav'));
 
 class DefaultLayout extends Component {
+  constructor(props) {
+    super(props);
+
+    
+  const divisi = localStorage.getItem("divisi");
+    this.state = {
+      divisi : divisi,
+    };
+  }
 
   loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
@@ -43,7 +55,9 @@ class DefaultLayout extends Component {
     this.props.history.push('/login');
   }
 
+
   render() {
+    const divisi = this.state.divisi;
     return (
       <div className="app">
         <Helmet>
@@ -59,7 +73,16 @@ class DefaultLayout extends Component {
             <AppSidebarHeader />
             <AppSidebarForm />
             <Suspense>
-            <AppSidebarNav navConfig={navigation} {...this.props} router={router}/>
+            {divisi === "HRD" &&
+        <AppSidebarNav navConfig={navigationHRD} {...this.props} router={router}/>
+            }
+            {divisi === "Finance Accounting" &&
+        <AppSidebarNav navConfig={navigationFinance} {...this.props} router={router}/>
+            }
+            {divisi === "Admin" &&
+        <AppSidebarNav navConfig={navigation} {...this.props} router={router}/>
+            }
+            
             </Suspense>
             <AppSidebarFooter />
             <AppSidebarMinimizer />

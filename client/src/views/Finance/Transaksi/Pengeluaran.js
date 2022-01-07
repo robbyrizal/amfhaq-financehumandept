@@ -94,7 +94,7 @@ class Pengeluaran extends Component {
         akun_debit: this.state.akun_debit,
         akun_kredit: this.state.akun_kredit,
         jumlah_dana: parseInt(this.state.jumlah_dana),
-        jumlah_bayar: parseInt(this.state.jumlah_bayar),
+        jumlah_bayar: parseInt(this.state.jumlah_dana),
       },
       refetchQueries: [{ query: getPengeluaransQuery }],
     });
@@ -158,8 +158,8 @@ class Pengeluaran extends Component {
             <td>{pengeluaran.kode}</td>
             <td>{pengeluaran.jumlah_dana}</td>
             <td>{pengeluaran.klien.nama_klien}</td>
-            <td>Tunai / Cicilan</td>
-            <td>Lunas / Belum Lunas</td>
+            {/* <td>Tunai / Cicilan</td>
+            <td>Lunas / Belum Lunas</td> */}
             <td>
               <Link to={`/pengeluaran/editDataPengeluaran/${pengeluaran.id}`}>
                 <Button color="success" size="sm">
@@ -197,6 +197,21 @@ class Pengeluaran extends Component {
       });
     }
   }
+  setGaji() {
+    var harga = 0;
+    var data = this.props.getKlienTagihansQuery;
+    if (data.loading) {
+      return <div>Loading Data Klien...</div>;
+    } else {
+      // eslint-disable-next-line
+      data.klientagihans.map((klientagihan) => {
+        if (klientagihan.id === this.state.nama_vendor && this.state.nama_vendor === "5fedc812f3d4210c78a7decc") {
+          harga = parseInt("15000000");
+        } 
+      });
+    }
+    return harga;
+  }
 
   render() {
     return (
@@ -226,8 +241,8 @@ class Pengeluaran extends Component {
                       <th>Kode Invoice</th>
                       <th>Nilai</th>
                       <th>Klien / Vendor</th>
-                      <th>Tipe Pembayaran</th>
-                      <th>Status</th>
+                      {/* <th>Tipe Pembayaran</th>
+                      <th>Status</th> */}
                       <th colSpan="2">Aksi</th>
                     </tr>
                   </thead>
@@ -306,6 +321,7 @@ class Pengeluaran extends Component {
                   <Input
                     type="number"
                     id="jumlahbiaya"
+                    defaultValue={this.setGaji()}
                     placeholder="Masukkan Jumlah Biaya"
                     className="text-align-right"
                     onChange={(e) =>
@@ -316,7 +332,7 @@ class Pengeluaran extends Component {
                   <InputGroupAddon addonType="append">.00</InputGroupAddon>
                 </InputGroup>
               </FormGroup>
-              <FormGroup>
+              {/* <FormGroup>
                 <Label htmlFor="name">Jumlah Terbayar</Label>
                 <InputGroup>
                   <InputGroupAddon addonType="prepend">Rp.</InputGroupAddon>
@@ -332,7 +348,7 @@ class Pengeluaran extends Component {
                   />
                   <InputGroupAddon addonType="append">.00</InputGroupAddon>
                 </InputGroup>
-              </FormGroup>
+              </FormGroup> */}
               <FormGroup>
                 <Label htmlFor="name">Tanggal Transaksi</Label>
                 <Input
@@ -346,7 +362,7 @@ class Pengeluaran extends Component {
                   required
                 />
               </FormGroup>
-              <FormGroup>
+              {/* <FormGroup>
                 <Label htmlFor="name">Jatuh Tempo</Label>
                 <Input
                   type="date"
@@ -358,7 +374,7 @@ class Pengeluaran extends Component {
                   }
                   required
                 />
-              </FormGroup>
+              </FormGroup> */}
               <FormGroup>
                 <Label htmlFor="name">Akun Debit</Label>
                 <Input
